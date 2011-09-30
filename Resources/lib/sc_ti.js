@@ -98,6 +98,8 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   });
   
   SCTi.Window = SCTi.View.extend({
+    tiOptions: 'title'.w(),
+    
     createTiView: function(options) {
       return Ti.UI.createWindow(options);
     },
