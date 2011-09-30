@@ -18,19 +18,18 @@
 	* jasmine.getEnv().addReporter(new jasmine.TitaniumReporter());
 	* jasmine.getEnv().execute();
 	*/
+	// create Titanium Window and WebView to display results
+	var titaniumTestWindow = Titanium.UI.createWindow({
+		title:'Application Tests',
+		backgroundColor: 'white',
+		zIndex: 999
+	});
+	
 	var TitaniumReporter = function() {
-		// create Titanium Window and WebView to display results
-		var titaniumTestWindow = Titanium.UI.createWindow({
-			title:'Application Tests',
-			backgroundColor: 'white',
-			zIndex: 999
-		});
-		
 		var titaniumTestsResultsWebView = Ti.UI.createWebView({
 			html: ''
 		});
 		titaniumTestWindow.add(titaniumTestsResultsWebView);
-		titaniumTestWindow.open();
 		
 		var testResults = '';
 		var testResultsHeader = '<html><head><style type="text/css">body{font-size:10px;font-family:helvetica;}</style></head><body>';
@@ -44,7 +43,8 @@
 
     TitaniumReporter.prototype = {
         reportRunnerResults: function(runner) {
-            //this.log('<h3>Test Runner Finished.</h3>');
+            this.log('<h3>Test Runner Finished.</h3>');
+            titaniumTestWindow.open();
         },
 
         reportRunnerStarting: function(runner) {

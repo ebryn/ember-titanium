@@ -12,7 +12,7 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   
   SCTi.View = SC.Object.extend({
     tiView: null,
-    tiOptions: 'backgroundColor width height top bottom left right layout'.w(),
+    tiOptions: 'backgroundColor font width height top bottom left right layout'.w(),
     tiEvents: 'click'.w(),
     
     concatenatedProperties: ['tiOptions', 'tiEvents'],
@@ -48,6 +48,10 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
       return this;
     },
     
+    addChildView: function(tiView, childView) {
+      tiView.add(get(childView, 'tiView'));
+    },
+    
     render: function() {
       var tiView = this.createView(), childViews = get(this, 'childViews');
       
@@ -60,7 +64,7 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
       for (var i = 0; i < childViews.length; i++) {
         var childView = childViews[i];
         childView.render();
-        tiView.add(get(childView, 'tiView'));
+        this.addChildView(tiView, childView);
       }
       
       set(this, 'isRendered', true);
@@ -94,6 +98,8 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   });
   
   SCTi.Window = SCTi.View.extend({
+    tiOptions: 'title'.w(),
+    
     createTiView: function(options) {
       return Ti.UI.createWindow(options);
     },
@@ -103,11 +109,18 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
       get(this, 'tiView').open();
       
       return this;
+    },
+    
+    close: function(options) {
+      this.render();
+      get(this, 'tiView').close(options);
+      
+      return this;
     }
   });
   
   SCTi.Label = SCTi.View.extend({
-    tiOptions: 'color text'.w(),
+    tiOptions: 'color text textAlign'.w(),
     
     createTiView: function(options) {
       return Ti.UI.createLabel(options);
@@ -133,6 +146,62 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
     }
   });
   
+  SCTi.Tab = SCTi.View.extend({
+    tiOptions: 'icon title'.w(),
+    
+    createTiView: function(options) {
+      return Ti.UI.createTab(options);
+    },
+    
+    optionsForTiView: function() {
+      var tiViewOptions = this._super();
+      
+      var sctiWindow = get(this, 'window');
+      if (sctiWindow !== undefined && sctiWindow !== null) {
+        sctiWindow.render();
+        tiViewOptions['window'] = get(sctiWindow, 'tiView');
+      }
+      
+      return tiViewOptions;
+    }
+    
+  });
   
+  SCTi.TabGroup = SCTi.View.extend({
+    addTab: function(view) {
+      var childViews = get(this, 'childViews');
+      childViews.push(view);
+      return this;
+    },
+    
+    addChildView: function(tiView, childView) {
+      tiView.addTab(get(childView, 'tiView'));
+    },
+    
+    close: function(options) {
+      this.render();
+      get(this, 'tiView').close(options);
+      
+      return this;
+    },
+    
+    createTiView: function(options) {
+      return Ti.UI.createTabGroup(options);
+    },
+    
+    open: function(options) {
+      this.render();
+      get(this, 'tiView').open(options);
+      
+      return this;
+    },
+    
+    setActiveTab: function(tabIndex) {
+      this.render();
+      get(this, 'tiView').setActiveTab(tabIndex);
+      
+      return this;
+    }
+  });
   
 })();
