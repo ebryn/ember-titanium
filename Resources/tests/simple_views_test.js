@@ -79,4 +79,63 @@
     });
   });
   
+  describe("SCTi.TabGroup", function() {
+    it("should be defined", function() {
+      expect(SCTi.TabGroup).toBeDefined();
+    });
+  
+    it("should be able to create a Ti.UI.TabGroup", function() {
+      var view = SCTi.TabGroup.create(), tiView;
+      
+      tiView = view.createView();
+      
+      expect(tiView).toBeDefined();
+    });
+
+    it("should be openable", function() {
+      var view = SCTi.TabGroup.create();
+      expect(function() { view.open(); }).not.toThrow();
+    });
+    
+    it("should be closable", function() {
+      var view = SCTi.TabGroup.create();
+      expect(function() { view.close(); }).not.toThrow();
+    });
+    
+    it("should be able to add tabs", function() {
+      var view = SCTi.TabGroup.create();
+      
+      expect(view.childViews.length).toEqual(0);
+    
+      view.addTab(SCTi.Tab.create());
+      expect(view.childViews.length).toEqual(1);
+    });
+    
+    it("should be able to set the active tab", function() {
+      var view = SCTi.TabGroup.create();
+      expect(function() { view.setActiveTab(0); }).not.toThrow();
+    });
+    
+    it("should render tabs when displayed", function() {
+      var view = SCTi.TabGroup.create({
+        childViews: [
+          SCTi.Tab.create()
+        ]
+      });
+      
+      expect(view.childViews.length).toEqual(1);
+    
+      var fakeTiView = {
+        addTab: function() {}
+      };
+      view.set('tiView', fakeTiView);
+      spyOn(fakeTiView, 'addTab');
+      
+      view.render();
+      
+      expect(fakeTiView.addTab).toHaveBeenCalled();
+      expect(fakeTiView.addTab.callCount).toEqual(1);
+    });
+  });
+  
 })();
