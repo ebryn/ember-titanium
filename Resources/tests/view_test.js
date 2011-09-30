@@ -96,7 +96,21 @@
       expect(fakeTiView.addEventListener).toHaveBeenCalled();
       expect(fakeTiView.addEventListener.callCount).toEqual(1);
     });
-  });
 
-  
+    it("should register observers", function() {
+      var view = SCTi.View.create({
+        width: 100
+      });
+      
+      var tiView = view.createView();
+      expect(tiView.width).toEqual(100);
+
+      view.set("width", 200);
+
+      SC.run(function() {
+        expect(tiView.width).toEqual(200);
+      });
+    });
+
+  });
 })();

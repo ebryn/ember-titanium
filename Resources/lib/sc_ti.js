@@ -37,6 +37,7 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
       if (!tiView) {
         var tiView = this.createTiView(this.optionsForTiView());
         set(this, 'tiView', tiView);
+        this.createObservers();
       }
        
       return tiView;
@@ -73,14 +74,10 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
     },
     
     optionsForTiView: function() {
-      var self = this, tiOptions = get(this, 'tiOptions');
-      var tiViewOptions = {};
+      var self = this, tiViewOptions = {};
       
-      tiOptions.forEach(function(optionName) {
-        var val = get(self, optionName);
-        if (val !== undefined && val !== null) {
-          tiViewOptions[optionName] = val;
-        }
+      this.forEachValidTiOption(function(optionName) {
+        tiViewOptions[optionName] = get(self, optionName);
       });
       
       return tiViewOptions;
@@ -93,6 +90,36 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
         if (handler && typeof handler === 'function') {
           tiView.addEventListener(eventName, function(event) { handler.call(self, event); });
         }
+      });
+    },
+
+    forEachValidTiOption: function(callback) {
+      var self = this, tiOptions = get(this, 'tiOptions');
+
+      tiOptions.forEach(function(optionName) {
+        var val = get(self, optionName);
+        if (val !== undefined && val !== null) {
+          callback.call(this, optionName);
+        }
+      });
+
+      return this;
+    },
+
+    createObservers: function() {
+      var self = this;
+
+      this.forEachValidTiOption(function(optionName) {
+        var observer = function() {
+          var tiView = get(this, 'tiView');
+          var currentValue = tiView[optionName], newValue = get(this, optionName);
+
+          if (newValue !== currentValue) {
+            tiView[optionName] = newValue;
+          }
+        };
+
+        SC.addObserver(self, optionName, observer);
       });
     }
   });
