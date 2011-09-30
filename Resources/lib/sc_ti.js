@@ -167,27 +167,13 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
     
   });
   
-  SCTi.TabGroup = SCTi.View.extend({
+  SCTi.TabGroup = SCTi.Window.extend({
     addChildView: function(tiView, childView) {
       tiView.addTab(get(childView, 'tiView'));
     },
-    
-    close: function(options) {
-      this.render();
-      get(this, 'tiView').close(options);
-      
-      return this;
-    },
-    
+
     createTiView: function(options) {
       return Ti.UI.createTabGroup(options);
-    },
-    
-    open: function(options) {
-      this.render();
-      get(this, 'tiView').open(options);
-      
-      return this;
     },
     
     setActiveTab: function(tabIndex) {
