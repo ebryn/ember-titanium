@@ -13,7 +13,7 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   SCTi.View = SC.Object.extend({
     tiView: null,
     tiOptions: 'backgroundColor font width height top bottom left right layout'.w(),
-    tiEvents: 'click'.w(),
+    tiEvents: [],
     
     concatenatedProperties: ['tiOptions', 'tiEvents'],
     
@@ -22,9 +22,14 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
     init: function() {
       this._super();
       
-      var childViews = get(this, 'childViews').slice();
-      // setup child views. be sure to clone the child views array first
+      // Use slice to create copies of the following arrays.
+      var childViews = get(this, 'childViews').slice(),
+          tiOptions = get(this, 'tiOptions').slice(),
+          tiEvents = get(this, 'tiEvents').slice();
+
       set(this, 'childViews', childViews);
+      set(this, 'tiOptions', tiOptions);
+      set(this, 'tiEvents', tiEvents);
     },
     
     createTiView: function(options) {
