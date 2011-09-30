@@ -91,16 +91,6 @@
       
       expect(tiView).toBeDefined();
     });
-
-    it("should be openable", function() {
-      var view = SCTi.TabGroup.create();
-      expect(function() { view.open(); }).not.toThrow();
-    });
-    
-    it("should be closable", function() {
-      var view = SCTi.TabGroup.create();
-      expect(function() { view.close(); }).not.toThrow();
-    });
     
     it("should be able to add tabs", function() {
       var view = SCTi.TabGroup.create();
