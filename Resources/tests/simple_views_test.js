@@ -16,6 +16,11 @@
       var view = SCTi.Window.create();
       expect(function() { view.open(); }).not.toThrow();
     });
+    
+    it("should be closable", function() {
+      var view = SCTi.Window.create();
+      expect(function() { view.close(); }).not.toThrow();
+    });
   });
 
   describe("SCTi.Label", function() {
@@ -53,6 +58,20 @@
   
     it("should be able to create a Ti.UI.Button", function() {
       var view = SCTi.Button.create(), tiView;
+      
+      tiView = view.createView();
+      
+      expect(tiView).toBeDefined();
+    });
+  });
+  
+  describe("SCTi.Tab", function() {
+    it("should be defined", function() {
+      expect(SCTi.Tab).toBeDefined();
+    });
+  
+    it("should be able to create a Ti.UI.Tab", function() {
+      var view = SCTi.Tab.create(), tiView;
       
       tiView = view.createView();
       

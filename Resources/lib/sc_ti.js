@@ -103,6 +103,13 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
       get(this, 'tiView').open();
       
       return this;
+    },
+    
+    close: function(options) {
+      this.render();
+      get(this, 'tiView').close(options);
+      
+      return this;
     }
   });
   
@@ -133,6 +140,25 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
     }
   });
   
-  
+  SCTi.Tab = SCTi.View.extend({
+    tiOptions: 'icon title'.w(),
+    
+    createTiView: function(options) {
+      return Ti.UI.createTab(options);
+    },
+    
+    optionsForTiView: function() {
+      var tiViewOptions = this._super();
+      
+      var sctiWindow = get(this, 'window');
+      if (sctiWindow !== undefined && sctiWindow !== null) {
+        sctiWindow.render();
+        tiViewOptions['window'] = get(sctiWindow, 'tiView');
+      }
+      
+      return tiViewOptions;
+    }
+    
+  });
   
 })();
