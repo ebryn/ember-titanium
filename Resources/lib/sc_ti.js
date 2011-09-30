@@ -168,12 +168,6 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   });
   
   SCTi.TabGroup = SCTi.View.extend({
-    addTab: function(view) {
-      var childViews = get(this, 'childViews');
-      childViews.push(view);
-      return this;
-    },
-    
     addChildView: function(tiView, childView) {
       tiView.addTab(get(childView, 'tiView'));
     },

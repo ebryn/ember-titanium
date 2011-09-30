@@ -107,7 +107,7 @@
       
       expect(view.childViews.length).toEqual(0);
     
-      view.addTab(SCTi.Tab.create());
+      view.add(SCTi.Tab.create());
       expect(view.childViews.length).toEqual(1);
     });
     
