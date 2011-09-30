@@ -120,7 +120,7 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   });
   
   SCTi.Label = SCTi.View.extend({
-    tiOptions: 'color text'.w(),
+    tiOptions: 'color text textAlign'.w(),
     
     createTiView: function(options) {
       return Ti.UI.createLabel(options);
