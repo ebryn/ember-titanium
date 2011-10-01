@@ -128,4 +128,18 @@
     });
   });
   
+  describe("SCTi.ImageView", function() {
+    it("should be defined", function() {
+      expect(SCTi.ImageView).toBeDefined();
+    });
+  
+    it("should be able to create a Ti.UI.ImageView", function() {
+      var view = SCTi.ImageView.create(), tiView;
+      
+      tiView = view.createView();
+      
+      expect(tiView).toBeDefined();
+    });
+  });
+  
 })();

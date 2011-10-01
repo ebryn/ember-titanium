@@ -32,6 +32,15 @@ if (RUN_TESTS) {
   });
 
   win1.add(label1);
+  
+  var image = SCTi.ImageView.create({
+    image: 'KS_nav_views.png',
+    height: 43,
+    width: 46,
+    top: 10
+  });
+  
+  win1.add(image);
 
   // create controls tab and root window
   var win2 = SCTi.Window.create({
