@@ -211,4 +211,10 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
     }
   });
   
+  SCTi.TextArea = SCTi.TextField.extend({
+    createTiView: function(options) {
+      return Ti.UI.createTextArea(options);
+    }
+  });
+  
 })();

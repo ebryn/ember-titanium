@@ -128,4 +128,18 @@
     });
   });
   
+  describe("SCTi.TextArea", function() {
+    it("should be defined", function() {
+      expect(SCTi.TextArea).toBeDefined();
+    });
+  
+    it("should be able to create a Ti.UI.TextArea", function() {
+      var view = SCTi.TextArea.create(), tiView;
+      
+      tiView = view.createView();
+      
+      expect(tiView).toBeDefined();
+    });
+  });
+  
 })();

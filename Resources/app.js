@@ -32,6 +32,15 @@ if (RUN_TESTS) {
   });
 
   win1.add(label1);
+  
+  var textarea = SCTi.TextArea.create({
+    top: 60,
+    height: 50,
+    width: 200,
+    value: 'I am a SCTi.TextArea'
+  });
+  
+  win1.add(textarea);
 
   // create controls tab and root window
   var win2 = SCTi.Window.create({
