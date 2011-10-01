@@ -81,6 +81,7 @@
     
     it("should register event listeners", function() {
       var view = SCTi.View.create({
+        tiEvents: 'click'.w(),
         click: function() {}
       });
       
