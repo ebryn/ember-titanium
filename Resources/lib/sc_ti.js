@@ -10,7 +10,41 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   
   SCTi = {};
   
-  SCTi.View = SC.Object.extend({
+  // Mixins
+  SCTi.Openable = {
+    open: function() {
+      this.render();
+      get(this, 'tiView').open();
+      
+      return this;
+    },
+    
+    close: function(options) {
+      this.render();
+      get(this, 'tiView').close(options);
+      
+      return this;
+    }
+  };
+  
+  SCTi.Hideable = {
+    hide: function() {
+      this.render();
+      get(this, 'tiView').hide();
+      
+      return this;
+    },
+    
+    show: function() {
+      this.render();
+      get(this, 'tiView').show();
+      
+      return this;
+    }
+  };
+  
+  // SproutCore Wrapped Titanium Objects
+  SCTi.View = SC.Object.extend(SCTi.Hideable, {
     tiView: null,
     tiOptions: 'backgroundColor font width height top bottom left right layout'.w(),
     tiEvents: [],
@@ -129,25 +163,11 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
     }
   });
   
-  SCTi.Window = SCTi.View.extend({
+  SCTi.Window = SCTi.View.extend(SCTi.Openable, {
     tiOptions: 'title'.w(),
     
     createTiView: function(options) {
       return Ti.UI.createWindow(options);
-    },
-    
-    open: function() {
-      this.render();
-      get(this, 'tiView').open();
-      
-      return this;
-    },
-    
-    close: function(options) {
-      this.render();
-      get(this, 'tiView').close(options);
-      
-      return this;
     }
   });
   
@@ -204,7 +224,7 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
     
   });
   
-  SCTi.TabGroup = SCTi.Window.extend({
+  SCTi.TabGroup = SCTi.View.extend(SCTi.Openable, {
     addChildView: function(tiView, childView) {
       tiView.addTab(get(childView, 'tiView'));
     },

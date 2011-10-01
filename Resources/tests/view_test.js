@@ -112,6 +112,16 @@
         expect(tiView.width).toEqual(200);
       });
     });
+    
+    it("should be hideable", function() {
+      var view = SCTi.View.create();
+      expect(function() { view.hide(); }).not.toThrow();
+    });
+    
+    it("should be showable", function() {
+      var view = SCTi.View.create();
+      expect(function() { view.show(); }).not.toThrow();
+    });
 
   });
 })();
