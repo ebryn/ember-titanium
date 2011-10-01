@@ -160,7 +160,7 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   });
   
   SCTi.TextField = SCTi.View.extend({
-    tiOptions: 'color value'.w(),
+    tiOptions: 'color value borderStyle'.w(),
     tiEvents: 'focus blur change'.w(),
     
     createTiView: function(options) {
