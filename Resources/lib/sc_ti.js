@@ -10,56 +10,42 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   
   SCTi = {};
   
-  SCTi.View = SC.Object.extend({
-    tiView: null,
-    tiOptions: 'backgroundColor font width height top bottom left right layout'.w(),
+  SCTi.Object = SC.Object.extend({
+    tiObject: null,
+    tiOptions: [],
     tiEvents: [],
     
     concatenatedProperties: ['tiOptions', 'tiEvents'],
-    
-    childViews: [],
     
     init: function() {
       this._super();
       
       // Use slice to create copies of the following arrays.
-      var childViews = get(this, 'childViews').slice(),
-          tiOptions = get(this, 'tiOptions').slice(),
+      var tiOptions = get(this, 'tiOptions').slice(),
           tiEvents = get(this, 'tiEvents').slice();
 
-      set(this, 'childViews', childViews);
       set(this, 'tiOptions', tiOptions);
       set(this, 'tiEvents', tiEvents);
     },
     
-    createTiView: function(options) {
-      return Ti.UI.createView(options);
-    },
-    
-    createView: function() {
-      var tiView = get(this, 'tiView');
-      
-      if (!tiView) {
-        var tiView = this.createTiView(this.optionsForTiView());
-        set(this, 'tiView', tiView);
-        this.createObservers();
-      }
-       
-      return tiView;
-    },
-    
-    add: function(view) {
-      var childViews = get(this, 'childViews');
-      childViews.push(view);
+    createTiObject: function(options) {
       return this;
     },
     
-    addChildView: function(tiView, childView) {
-      tiView.add(get(childView, 'tiView'));
+    createObject: function() {
+      var tiObject = get(this, 'tiObject');
+      
+      if (!tiObject) {
+        var tiObject = this.createTiObject(this.optionsForTiObject());
+        set(this, 'tiObject', tiObject);
+        this.createObservers();
+      }
+       
+      return tiObject;
     },
     
     render: function() {
-      var tiView = this.createView(), childViews = get(this, 'childViews');
+      var tiObject = this.createObject();
       
       if (get(this, 'isRendered')) { return this; }
       
@@ -67,33 +53,27 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
       
       this.registerEvents();
       
-      for (var i = 0; i < childViews.length; i++) {
-        var childView = childViews[i];
-        childView.render();
-        this.addChildView(tiView, childView);
-      }
-      
       set(this, 'isRendered', true);
       
       return this;
     },
     
-    optionsForTiView: function() {
-      var self = this, tiViewOptions = {};
+    optionsForTiObject: function() {
+      var self = this, tiObjectOptions = {};
       
       this.forEachValidTiOption(function(optionName) {
-        tiViewOptions[optionName] = get(self, optionName);
+        tiObjectOptions[optionName] = get(self, optionName);
       });
       
-      return tiViewOptions;
+      return tiObjectOptions;
     },
     
     registerEvents: function() {
-      var self = this, tiView = get(this, 'tiView'), tiEvents = get(this, 'tiEvents');
+      var self = this, tiObject = get(this, 'tiObject'), tiEvents = get(this, 'tiEvents');
       tiEvents.forEach(function(eventName) {
         var handler = get(self, eventName);
         if (handler && typeof handler === 'function') {
-          tiView.addEventListener(eventName, function(event) { handler.call(self, event); });
+          tiObject.addEventListener(eventName, function(event) { handler.call(self, event); });
         }
       });
     },
@@ -116,11 +96,11 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
 
       this.forEachValidTiOption(function(optionName) {
         var observer = function() {
-          var tiView = get(this, 'tiView');
-          var currentValue = tiView[optionName], newValue = get(this, optionName);
+          var tiObject = get(this, 'tiObject');
+          var currentValue = tiObject[optionName], newValue = get(this, optionName);
 
           if (newValue !== currentValue) {
-            tiView[optionName] = newValue;
+            tiObject[optionName] = newValue;
           }
         };
 
@@ -129,23 +109,64 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
     }
   });
   
+  SCTi.View = SCTi.Object.extend({
+    tiOptions: 'backgroundColor font width height top bottom left right layout'.w(),
+    
+    childViews: [],
+    
+    init: function() {
+      this._super();
+      
+      // Use slice to create copies of the following arrays.
+      var childViews = get(this, 'childViews').slice();
+
+      set(this, 'childViews', childViews);
+    },
+    
+    createTiObject: function(options) {
+      return Ti.UI.createView(options);
+    },
+    
+    add: function(view) {
+      var childViews = get(this, 'childViews');
+      childViews.push(view);
+      return this;
+    },
+    
+    addChildView: function(tiObject, childView) {
+      tiObject.add(get(childView, 'tiObject'));
+    },
+    
+    render: function() {
+      var tiObject = this.createObject(), childViews = get(this, 'childViews');
+
+      for (var i = 0; i < childViews.length; i++) {
+        var childView = childViews[i];
+        childView.render();
+        this.addChildView(tiObject, childView);
+      }
+      
+      return this._super();
+    }
+  });
+  
   SCTi.Window = SCTi.View.extend({
     tiOptions: 'title'.w(),
     
-    createTiView: function(options) {
+    createTiObject: function(options) {
       return Ti.UI.createWindow(options);
     },
     
     open: function() {
       this.render();
-      get(this, 'tiView').open();
+      get(this, 'tiObject').open();
       
       return this;
     },
     
     close: function(options) {
       this.render();
-      get(this, 'tiView').close(options);
+      get(this, 'tiObject').close(options);
       
       return this;
     }
@@ -154,7 +175,7 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   SCTi.Label = SCTi.View.extend({
     tiOptions: 'color text textAlign'.w(),
     
-    createTiView: function(options) {
+    createTiObject: function(options) {
       return Ti.UI.createLabel(options);
     }
   });
@@ -163,14 +184,14 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
     tiOptions: 'color value borderStyle'.w(),
     tiEvents: 'focus blur change'.w(),
     
-    createTiView: function(options) {
+    createTiObject: function(options) {
       options.borderStyle = options.borderStyle || Ti.UI.INPUT_BORDERSTYLE_NONE;
       return Ti.UI.createTextField(options);
     },
 
     change: function() {
-      var self = this, tiView = get(this, 'tiView');
-      set(self, 'value', tiView.value);
+      var self = this, tiObject = get(this, 'tiObject');
+      set(self, 'value', tiObject.value);
     }
   });
   
@@ -178,7 +199,7 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
     tiOptions: 'title'.w(),
     tiEvents: 'click'.w(),
     
-    createTiView: function(options) {
+    createTiObject: function(options) {
       return Ti.UI.createButton(options);
     }
   });
@@ -186,36 +207,36 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   SCTi.Tab = SCTi.View.extend({
     tiOptions: 'icon title'.w(),
     
-    createTiView: function(options) {
+    createTiObject: function(options) {
       return Ti.UI.createTab(options);
     },
     
-    optionsForTiView: function() {
-      var tiViewOptions = this._super();
+    optionsForTiObject: function() {
+      var tiObjectOptions = this._super();
       
       var sctiWindow = get(this, 'window');
       if (sctiWindow !== undefined && sctiWindow !== null) {
         sctiWindow.render();
-        tiViewOptions['window'] = get(sctiWindow, 'tiView');
+        tiObjectOptions['window'] = get(sctiWindow, 'tiObject');
       }
       
-      return tiViewOptions;
+      return tiObjectOptions;
     }
     
   });
   
   SCTi.TabGroup = SCTi.Window.extend({
-    addChildView: function(tiView, childView) {
-      tiView.addTab(get(childView, 'tiView'));
+    addChildView: function(tiObject, childView) {
+      tiObject.addTab(get(childView, 'tiObject'));
     },
 
-    createTiView: function(options) {
+    createTiObject: function(options) {
       return Ti.UI.createTabGroup(options);
     },
     
     setActiveTab: function(tabIndex) {
       this.render();
-      get(this, 'tiView').setActiveTab(tabIndex);
+      get(this, 'tiObject').setActiveTab(tabIndex);
       
       return this;
     }
