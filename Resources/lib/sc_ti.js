@@ -265,13 +265,13 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   SCTi.ImageView = SCTi.View.extend({
     tiOptions: 'canScale defaultImage hires image preventDefaultImage'.w(),
     
-    createTiView: function(options) {
+    createTiObject: function(options) {
       return Ti.UI.createImageView(options);
     }
   });
 
   SCTi.TextArea = SCTi.TextField.extend({
-    createTiView: function(options) {
+    createTiObject: function(options) {
       return Ti.UI.createTextArea(options);
     }
   });
