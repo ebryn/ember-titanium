@@ -269,5 +269,11 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
       return Ti.UI.createImageView(options);
     }
   });
+
+  SCTi.TextArea = SCTi.TextField.extend({
+    createTiView: function(options) {
+      return Ti.UI.createTextArea(options);
+    }
+  });
   
 })();
