@@ -105,8 +105,8 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
     registerEvents: function() {
       var self = this, tiObject = get(this, 'tiObject'), tiEvents = get(this, 'tiEvents');
       tiEvents.forEach(function(eventName) {
-        var handler = get(self, eventName);
-        Ti.API.info('handler: ' + handler);
+        var eventFunction = 'on' + eventName.charAt(0).toUpperCase() + eventName.slice(1);
+        var handler = get(self, eventFunction);
         if (handler && typeof handler === 'function') {
           tiObject.addEventListener(eventName, function(event) { handler.call(self, event); });
         }

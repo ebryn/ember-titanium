@@ -81,7 +81,7 @@
     
     it("should register event listeners", function() {
       var view = SCTi.View.create({
-        click: function() {}
+        onClick: function() {}
       });
       
       var fakeTiObject = {
