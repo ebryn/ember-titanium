@@ -96,7 +96,14 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
       var self = this, tiObjectOptions = {};
       
       this.forEachValidTiOption(function(optionName) {
-        tiObjectOptions[optionName] = get(self, optionName);
+        var optionVal = get(self, optionName);
+        // Assign the Ti Object if the value is an SC wrapped Ti Object
+        if (optionVal instanceof SCTi.Object) {
+          optionVal.render();
+          tiObjectOptions[optionName] = get(optionVal, 'tiObject'); 
+        }
+        else
+          tiObjectOptions[optionName] = get(self, optionName);
       });
       
       return tiObjectOptions;
@@ -229,24 +236,11 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   });
   
   SCTi.Tab = SCTi.View.extend({
-    tiOptions: 'badge icon title'.w(),
+    tiOptions: 'badge icon title window'.w(),
     
     createTiObject: function(options) {
       return Ti.UI.createTab(options);
-    },
-    
-    optionsForTiObject: function() {
-      var tiObjectOptions = this._super();
-      
-      var sctiWindow = get(this, 'window');
-      if (sctiWindow !== undefined && sctiWindow !== null) {
-        sctiWindow.render();
-        tiObjectOptions['window'] = get(sctiWindow, 'tiObject');
-      }
-      
-      return tiObjectOptions;
     }
-    
   });
 
   SCTi.TabGroup = SCTi.View.extend(SCTi.Openable, {
