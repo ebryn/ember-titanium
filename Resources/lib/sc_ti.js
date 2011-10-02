@@ -144,7 +144,7 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   });
   
   SCTi.View = SCTi.Object.extend(SCTi.Hideable, {
-    tiOptions: 'backgroundColor font width height top bottom left right layout'.w(),
+    tiOptions: 'anchorPoint animatedCenterPoint backgroundColor backgroundDisabledColor backgroundDisabledImage backgroundFocusedColor backgroundFocusedImage backgroundGradient backgroundImage backgroundLeftCap backgroundSelectedColor backgroundSelectedImage backgroundTopCap borderColor borderRadius borderWidth bottom center focusable font fontFamily fontSize fontStyle fontWeight height left opacity right size softKeyboardOnFocus top touchEnabled transform visible width zIndex'.w(),
     
     childViews: [],
     
@@ -185,7 +185,7 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   });
   
   SCTi.Window = SCTi.View.extend(SCTi.Openable, {
-    tiOptions: 'title'.w(),
+    tiOptions: 'backButtonTitle backButtonTitleImage barColor barImage exitOnClose fullscreen leftNavButton modal navBarHidden orientationModes rightNavButton tabBarHidden title titleControl titleImage titlePrompt titleid titlepromptid toolbar translucent url windowSoftInputMode'.w(),
     
     createTiObject: function(options) {
       return Ti.UI.createWindow(options);
@@ -193,7 +193,7 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   });
   
   SCTi.Label = SCTi.View.extend({
-    tiOptions: 'color text textAlign'.w(),
+    tiOptions: 'autoLink backgroundPaddingBottom backgroundPaddingLeft backgroundPaddingRight backgroundPaddingTop color ellipsize font highlightedColor html minimumFontSize shadowColor shadowOffset text textAlign textid wordWrap'.w(),
     
     createTiObject: function(options) {
       return Ti.UI.createLabel(options);
@@ -201,7 +201,7 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   });
   
   SCTi.TextField = SCTi.View.extend({
-    tiOptions: 'color value borderStyle'.w(),
+    tiOptions: 'autocapitalization borderStyle clearButtonMode clearOnEdit editable enabled hintText keyboardToolbar keyboardToolbarColor keyboardToolbarHeight leftButton leftButtonMode leftButtonPadding minimumFontSize paddingLeft paddingRight rightButton rightButtonMode rightButtonPadding suppressReturn value verticalAlign'.w(),
     tiEvents: 'focus blur change'.w(),
     
     createTiObject: function(options) {
@@ -216,7 +216,7 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   });
   
   SCTi.Button = SCTi.View.extend({
-    tiOptions: 'title'.w(),
+    tiOptions: 'color enabled font image selectedColor style title titleid'.w(),
     tiEvents: 'click'.w(),
     
     createTiObject: function(options) {
@@ -225,7 +225,7 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   });
   
   SCTi.Tab = SCTi.View.extend({
-    tiOptions: 'icon title'.w(),
+    tiOptions: 'badge icon title'.w(),
     
     createTiObject: function(options) {
       return Ti.UI.createTab(options);
@@ -246,6 +246,8 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   });
 
   SCTi.TabGroup = SCTi.View.extend(SCTi.Openable, {
+    tiOptions: 'activeTab allowUserCustomization barColor editButtonTitle tabs windowSoftInputMode'.w(),
+    
     addChildView: function(tiObject, childView) {
       tiObject.addTab(get(childView, 'tiObject'));
     },
@@ -263,14 +265,17 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   });
   
   SCTi.ImageView = SCTi.View.extend({
-    tiOptions: 'canScale defaultImage hires image preventDefaultImage'.w(),
+    tiOptions: 'animating canScale decodeRetries defaultImage duration enableZoomControls hires image images paused preventDefaultImage repeatCount reverse'.w(),
     
     createTiObject: function(options) {
       return Ti.UI.createImageView(options);
     }
   });
 
-  SCTi.TextArea = SCTi.TextField.extend({
+  SCTi.TextArea = SCTi.View.extend({
+    tiOptions: 'autoLink autocapitalization editable enabled keyboardToolbar keyboardToolbarColor keyboardToolbarHeight suppressReturn value'.w(),
+    tiEvents: 'focus blur change'.w(),
+    
     createTiObject: function(options) {
       return Ti.UI.createTextArea(options);
     }
