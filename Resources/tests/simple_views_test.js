@@ -156,4 +156,18 @@
     });
   });
   
+  describe("SCTi.AlertDialog", function() {
+    it("should be defined", function() {
+      expect(SCTi.AlertDialog).toBeDefined();
+    });
+  
+    it("should be able to create a Ti.UI.AlertDialog", function() {
+      var view = SCTi.AlertDialog.create(), tiView;
+      
+      tiView = view.createObject();
+      
+      expect(tiView).toBeDefined();
+    });
+  });
+  
 })();

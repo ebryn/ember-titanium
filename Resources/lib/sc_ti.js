@@ -276,4 +276,12 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
     }
   });
   
+  SCTi.AlertDialog = SCTi.Object.extend(SCTi.Hideable, {
+    tiOptions: 'buttonNames cancel message messageid title'.w(),
+    
+    createTiObject: function(options) {
+      return Ti.UI.createAlertDialog(options);
+    }
+  });
+  
 })();

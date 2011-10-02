@@ -78,4 +78,11 @@ if (RUN_TESTS) {
 
   // open tab group
   tabGroup.open();
+  
+  var alertDialog = SCTi.AlertDialog.create({
+    title: 'Hello',
+    message: 'SproutCore Rocks!',
+    buttonNames: ['OK', 'Cancel']
+  });
+  alertDialog.show();
 }
