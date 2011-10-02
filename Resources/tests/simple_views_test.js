@@ -11,16 +11,6 @@
       
       expect(tiObject).toBeDefined();
     });
-
-    it("should be openable", function() {
-      var view = SCTi.Window.create();
-      expect(function() { view.open(); }).not.toThrow();
-    });
-    
-    it("should be closable", function() {
-      var view = SCTi.Window.create();
-      expect(function() { view.close(); }).not.toThrow();
-    });
   });
 
   describe("SCTi.Label", function() {
