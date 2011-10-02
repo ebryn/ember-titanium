@@ -186,6 +186,8 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
       var tiObject = this.createObject(), childViews = get(this, 'childViews');
       
       if (get(this, 'isRendered')) { return this; }
+      
+      this._super();
 
       for (var i = 0; i < childViews.length; i++) {
         var childView = childViews[i];
@@ -193,7 +195,7 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
         this.addChildView(tiObject, childView);
       }
       
-      return this._super();
+      return this;
     }
   });
   
