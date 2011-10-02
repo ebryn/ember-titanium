@@ -14,14 +14,14 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   SCTi.Openable = {
     open: function() {
       this.render();
-      get(this, 'tiView').open();
+      get(this, 'tiObject').open();
       
       return this;
     },
     
     close: function(options) {
       this.render();
-      get(this, 'tiView').close(options);
+      get(this, 'tiObject').close(options);
       
       return this;
     }
@@ -30,14 +30,14 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   SCTi.Hideable = {
     hide: function() {
       this.render();
-      get(this, 'tiView').hide();
+      get(this, 'tiObject').hide();
       
       return this;
     },
     
     show: function() {
       this.render();
-      get(this, 'tiView').show();
+      get(this, 'tiObject').show();
       
       return this;
     }
