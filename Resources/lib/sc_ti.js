@@ -102,8 +102,9 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
           optionVal.render();
           tiObjectOptions[optionName] = get(optionVal, 'tiObject'); 
         }
-        else
-          tiObjectOptions[optionName] = get(self, optionName);
+        else {
+          tiObjectOptions[optionName] = get(self, optionName); 
+        }
       });
       
       return tiObjectOptions;
