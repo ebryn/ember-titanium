@@ -106,6 +106,7 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
       var self = this, tiObject = get(this, 'tiObject'), tiEvents = get(this, 'tiEvents');
       tiEvents.forEach(function(eventName) {
         var handler = get(self, eventName);
+        Ti.API.info('handler: ' + handler);
         if (handler && typeof handler === 'function') {
           tiObject.addEventListener(eventName, function(event) { handler.call(self, event); });
         }
@@ -145,6 +146,7 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   
   SCTi.View = SCTi.Object.extend(SCTi.Hideable, {
     tiOptions: 'anchorPoint animatedCenterPoint backgroundColor backgroundDisabledColor backgroundDisabledImage backgroundFocusedColor backgroundFocusedImage backgroundGradient backgroundImage backgroundLeftCap backgroundSelectedColor backgroundSelectedImage backgroundTopCap borderColor borderRadius borderWidth bottom center focusable font fontFamily fontSize fontStyle fontWeight height layout left opacity right size softKeyboardOnFocus top touchEnabled transform visible width zIndex'.w(),
+    tiEvents: 'click dblclick doubletap singletap swipe touchcancel touchend touchmove touchstart twofingertap'.w(),
     
     childViews: [],
     
@@ -188,6 +190,7 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   
   SCTi.Window = SCTi.View.extend(SCTi.Openable, {
     tiOptions: 'backButtonTitle backButtonTitleImage barColor barImage exitOnClose fullscreen leftNavButton modal navBarHidden orientationModes rightNavButton tabBarHidden title titleControl titleImage titlePrompt titleid titlepromptid toolbar translucent url windowSoftInputMode'.w(),
+    tiEvents: 'android:back android:camera android:focus android:search android:voldown android:volup blur close focus open'.w(),
     
     createTiObject: function(options) {
       return Ti.UI.createWindow(options);
@@ -204,7 +207,7 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   
   SCTi.TextField = SCTi.View.extend({
     tiOptions: 'autocapitalization borderStyle clearButtonMode clearOnEdit editable enabled hintText keyboardToolbar keyboardToolbarColor keyboardToolbarHeight leftButton leftButtonMode leftButtonPadding minimumFontSize paddingLeft paddingRight rightButton rightButtonMode rightButtonPadding suppressReturn value verticalAlign'.w(),
-    tiEvents: 'focus blur change'.w(),
+    tiEvents: 'focus blur change hasText'.w(),
     
     createTiObject: function(options) {
       options.borderStyle = options.borderStyle || Ti.UI.INPUT_BORDERSTYLE_NONE;
@@ -219,7 +222,6 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   
   SCTi.Button = SCTi.View.extend({
     tiOptions: 'color enabled font image selectedColor style title titleid'.w(),
-    tiEvents: 'click'.w(),
     
     createTiObject: function(options) {
       return Ti.UI.createButton(options);
@@ -249,6 +251,7 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
 
   SCTi.TabGroup = SCTi.View.extend(SCTi.Openable, {
     tiOptions: 'activeTab allowUserCustomization barColor editButtonTitle tabs windowSoftInputMode'.w(),
+    tiEvents: 'blur close focus open'.w(),
     
     addChildView: function(tiObject, childView) {
       tiObject.addTab(get(childView, 'tiObject'));
@@ -268,6 +271,7 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   
   SCTi.ImageView = SCTi.View.extend({
     tiOptions: 'animating canScale decodeRetries defaultImage duration enableZoomControls hires image images paused preventDefaultImage repeatCount reverse'.w(),
+    tiEvents: 'change load start stop'.w(),
     
     createTiObject: function(options) {
       return Ti.UI.createImageView(options);
@@ -276,7 +280,7 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
 
   SCTi.TextArea = SCTi.View.extend({
     tiOptions: 'autoLink autocapitalization editable enabled keyboardToolbar keyboardToolbarColor keyboardToolbarHeight suppressReturn value'.w(),
-    tiEvents: 'focus blur change'.w(),
+    tiEvents: 'blur change focus return selected'.w(),
     
     createTiObject: function(options) {
       return Ti.UI.createTextArea(options);
@@ -285,6 +289,7 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   
   SCTi.AlertDialog = SCTi.Object.extend(SCTi.Hideable, {
     tiOptions: 'buttonNames cancel message messageid title'.w(),
+    tiEvents: 'click'.w(),
     
     createTiObject: function(options) {
       return Ti.UI.createAlertDialog(options);
