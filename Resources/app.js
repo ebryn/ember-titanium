@@ -10,7 +10,16 @@ if (RUN_TESTS) {
   Titanium.UI.setBackgroundColor('#000');
 
   // create tab group
-  var tabGroup = SCTi.TabGroup.create();
+  var tabGroup = SCTi.TabGroup.create({
+    opened: function() {
+      var alertDialog = SCTi.AlertDialog.create({
+        title: 'Hello',
+        message: 'SproutCore Rocks!',
+        buttonNames: ['OK', 'Cancel']
+      });
+      alertDialog.show();
+    }
+  });
 
   // create base UI tab and root window
   var win1 = SCTi.Window.create({
@@ -78,11 +87,4 @@ if (RUN_TESTS) {
 
   // open tab group
   tabGroup.open();
-  
-  var alertDialog = SCTi.AlertDialog.create({
-    title: 'Hello',
-    message: 'SproutCore Rocks!',
-    buttonNames: ['OK', 'Cancel']
-  });
-  alertDialog.show();
 }

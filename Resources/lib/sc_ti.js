@@ -112,10 +112,11 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
     registerEvents: function() {
       var self = this, tiObject = get(this, 'tiObject'), tiEvents = get(this, 'tiEvents');
       tiEvents.forEach(function(eventName) {
-        var eventFunction = 'on' + eventName.charAt(0).toUpperCase() + eventName.slice(1);
-        var handler = get(self, eventFunction);
+        var tiEvent = eventName.split(':')[0];
+        var scFunction = eventName.split(':')[1] || tiEvent;
+        var handler = get(self, scFunction);
         if (handler && typeof handler === 'function') {
-          tiObject.addEventListener(eventName, function(event) { handler.call(self, event); });
+          tiObject.addEventListener(tiEvent, function(event) { handler.call(self, event); });
         }
       });
     },
@@ -197,7 +198,7 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   
   SCTi.Window = SCTi.View.extend(SCTi.Openable, {
     tiOptions: 'backButtonTitle backButtonTitleImage barColor barImage exitOnClose fullscreen leftNavButton modal navBarHidden orientationModes rightNavButton tabBarHidden title titleControl titleImage titlePrompt titleid titlepromptid toolbar translucent url windowSoftInputMode'.w(),
-    tiEvents: 'android:back android:camera android:focus android:search android:voldown android:volup blur close focus open'.w(),
+    tiEvents: 'android:back android:camera android:focus android:search android:voldown android:volup blur close:closed focus open:opened'.w(),
     
     createTiObject: function(options) {
       return Ti.UI.createWindow(options);
@@ -245,7 +246,7 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
 
   SCTi.TabGroup = SCTi.View.extend(SCTi.Openable, {
     tiOptions: 'activeTab allowUserCustomization barColor editButtonTitle tabs windowSoftInputMode'.w(),
-    tiEvents: 'blur close focus open'.w(),
+    tiEvents: 'blur close:closed focus open:opened'.w(),
     
     addChildView: function(tiObject, childView) {
       tiObject.addTab(get(childView, 'tiObject'));
