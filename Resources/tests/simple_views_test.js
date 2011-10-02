@@ -5,11 +5,11 @@
     });
   
     it("should be able to create a Ti.UI.Window", function() {
-      var view = SCTi.Window.create(), tiView;
+      var view = SCTi.Window.create(), tiObject;
       
-      tiView = view.createView();
+      tiObject = view.createObject();
       
-      expect(tiView).toBeDefined();
+      expect(tiObject).toBeDefined();
     });
 
     it("should be openable", function() {
@@ -29,11 +29,11 @@
     });
   
     it("should be able to create a Ti.UI.Label", function() {
-      var view = SCTi.Label.create(), tiView;
+      var view = SCTi.Label.create(), tiObject;
       
-      tiView = view.createView();
+      tiObject = view.createObject();
       
-      expect(tiView).toBeDefined();
+      expect(tiObject).toBeDefined();
     });
   });
   
@@ -43,11 +43,11 @@
     });
   
     it("should be able to create a Ti.UI.TextField", function() {
-      var view = SCTi.TextField.create(), tiView;
+      var view = SCTi.TextField.create(), tiObject;
       
-      tiView = view.createView();
+      tiObject = view.createObject();
       
-      expect(tiView).toBeDefined();
+      expect(tiObject).toBeDefined();
     });
   });
   
@@ -57,11 +57,11 @@
     });
   
     it("should be able to create a Ti.UI.Button", function() {
-      var view = SCTi.Button.create(), tiView;
+      var view = SCTi.Button.create(), tiObject;
       
-      tiView = view.createView();
+      tiObject = view.createObject();
       
-      expect(tiView).toBeDefined();
+      expect(tiObject).toBeDefined();
     });
   });
   
@@ -71,11 +71,11 @@
     });
   
     it("should be able to create a Ti.UI.Tab", function() {
-      var view = SCTi.Tab.create(), tiView;
+      var view = SCTi.Tab.create(), tiObject;
       
-      tiView = view.createView();
+      tiObject = view.createObject();
       
-      expect(tiView).toBeDefined();
+      expect(tiObject).toBeDefined();
     });
   });
   
@@ -85,11 +85,11 @@
     });
   
     it("should be able to create a Ti.UI.TabGroup", function() {
-      var view = SCTi.TabGroup.create(), tiView;
+      var view = SCTi.TabGroup.create(), tiObject;
       
-      tiView = view.createView();
+      tiObject = view.createObject();
       
-      expect(tiView).toBeDefined();
+      expect(tiObject).toBeDefined();
     });
     
     it("should be able to add tabs", function() {
@@ -115,16 +115,16 @@
       
       expect(view.childViews.length).toEqual(1);
     
-      var fakeTiView = {
+      var fakeTiObject = {
         addTab: function() {}
       };
-      view.set('tiView', fakeTiView);
-      spyOn(fakeTiView, 'addTab');
+      view.set('tiObject', fakeTiObject);
+      spyOn(fakeTiObject, 'addTab');
       
       view.render();
       
-      expect(fakeTiView.addTab).toHaveBeenCalled();
-      expect(fakeTiView.addTab.callCount).toEqual(1);
+      expect(fakeTiObject.addTab).toHaveBeenCalled();
+      expect(fakeTiObject.addTab.callCount).toEqual(1);
     });
   });
   
