@@ -173,6 +173,8 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
     
     render: function() {
       var tiObject = this.createObject(), childViews = get(this, 'childViews');
+      
+      if (get(this, 'isRendered')) { return this; }
 
       for (var i = 0; i < childViews.length; i++) {
         var childView = childViews[i];
