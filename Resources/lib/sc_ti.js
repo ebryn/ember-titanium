@@ -262,4 +262,12 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
     }
   });
   
+  SCTi.ImageView = SCTi.View.extend({
+    tiOptions: 'canScale defaultImage hires image preventDefaultImage'.w(),
+    
+    createTiView: function(options) {
+      return Ti.UI.createImageView(options);
+    }
+  });
+  
 })();
