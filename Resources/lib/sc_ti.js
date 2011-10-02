@@ -101,8 +101,7 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
         if (optionVal instanceof SCTi.Object) {
           optionVal.render();
           tiObjectOptions[optionName] = get(optionVal, 'tiObject'); 
-        }
-        else {
+        } else {
           tiObjectOptions[optionName] = get(self, optionName); 
         }
       });
