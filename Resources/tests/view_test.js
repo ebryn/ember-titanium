@@ -98,9 +98,9 @@
     });
     
     it("should register renamed event listeners", function() {
-      var view = SCTi.Object.create({
+      var openedWasCalled = false, view = SCTi.Object.create({
         tiEvents: 'open:opened',
-        opened: function() {}
+        opened: function() { openedWasCalled = true; }
       });
       
       var fakeTiObject = {
@@ -113,6 +113,10 @@
 
       expect(fakeTiObject.addEventListener).toHaveBeenCalled();
       expect(fakeTiObject.addEventListener.callCount).toEqual(1);
+      expect(fakeTiObject.addEventListener.mostRecentCall.args[0]).toEqual('open');
+
+      fakeTiObject.addEventListener.mostRecentCall.args[1].call();
+      expect(openedWasCalled).toEqual(true);
     });
 
     it("should register observers", function() {
