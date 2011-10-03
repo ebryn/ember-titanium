@@ -10,7 +10,16 @@ if (RUN_TESTS) {
   Titanium.UI.setBackgroundColor('#000');
 
   // create tab group
-  var tabGroup = SCTi.TabGroup.create();
+  var tabGroup = SCTi.TabGroup.create({
+    opened: function() {
+      var alertDialog = SCTi.AlertDialog.create({
+        title: 'Hello',
+        message: 'SproutCore Rocks!',
+        buttonNames: ['OK', 'Cancel']
+      });
+      alertDialog.show();
+    }
+  });
 
   // create base UI tab and root window
   var win1 = SCTi.Window.create({
@@ -32,6 +41,24 @@ if (RUN_TESTS) {
   });
 
   win1.add(label1);
+  
+  var image = SCTi.ImageView.create({
+    image: 'KS_nav_views.png',
+    height: 43,
+    width: 46,
+    top: 10
+  });
+  
+  win1.add(image);
+  
+  var textarea = SCTi.TextArea.create({
+    top: 60,
+    height: 50,
+    width: 200,
+    value: 'I am a SCTi.TextArea'
+  });
+  
+  win1.add(textarea);
 
   // create controls tab and root window
   var win2 = SCTi.Window.create({
