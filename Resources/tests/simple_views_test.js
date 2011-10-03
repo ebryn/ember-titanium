@@ -5,21 +5,11 @@
     });
   
     it("should be able to create a Ti.UI.Window", function() {
-      var view = SCTi.Window.create(), tiView;
+      var view = SCTi.Window.create(), tiObject;
       
-      tiView = view.createView();
+      tiObject = view.createObject();
       
-      expect(tiView).toBeDefined();
-    });
-
-    it("should be openable", function() {
-      var view = SCTi.Window.create();
-      expect(function() { view.open(); }).not.toThrow();
-    });
-    
-    it("should be closable", function() {
-      var view = SCTi.Window.create();
-      expect(function() { view.close(); }).not.toThrow();
+      expect(tiObject).toBeDefined();
     });
   });
 
@@ -29,11 +19,11 @@
     });
   
     it("should be able to create a Ti.UI.Label", function() {
-      var view = SCTi.Label.create(), tiView;
+      var view = SCTi.Label.create(), tiObject;
       
-      tiView = view.createView();
+      tiObject = view.createObject();
       
-      expect(tiView).toBeDefined();
+      expect(tiObject).toBeDefined();
     });
   });
   
@@ -43,11 +33,11 @@
     });
   
     it("should be able to create a Ti.UI.TextField", function() {
-      var view = SCTi.TextField.create(), tiView;
+      var view = SCTi.TextField.create(), tiObject;
       
-      tiView = view.createView();
+      tiObject = view.createObject();
       
-      expect(tiView).toBeDefined();
+      expect(tiObject).toBeDefined();
     });
   });
   
@@ -57,11 +47,11 @@
     });
   
     it("should be able to create a Ti.UI.Button", function() {
-      var view = SCTi.Button.create(), tiView;
+      var view = SCTi.Button.create(), tiObject;
       
-      tiView = view.createView();
+      tiObject = view.createObject();
       
-      expect(tiView).toBeDefined();
+      expect(tiObject).toBeDefined();
     });
   });
   
@@ -71,11 +61,11 @@
     });
   
     it("should be able to create a Ti.UI.Tab", function() {
-      var view = SCTi.Tab.create(), tiView;
+      var view = SCTi.Tab.create(), tiObject;
       
-      tiView = view.createView();
+      tiObject = view.createObject();
       
-      expect(tiView).toBeDefined();
+      expect(tiObject).toBeDefined();
     });
   });
   
@@ -85,11 +75,11 @@
     });
   
     it("should be able to create a Ti.UI.TabGroup", function() {
-      var view = SCTi.TabGroup.create(), tiView;
+      var view = SCTi.TabGroup.create(), tiObject;
       
-      tiView = view.createView();
+      tiObject = view.createObject();
       
-      expect(tiView).toBeDefined();
+      expect(tiObject).toBeDefined();
     });
     
     it("should be able to add tabs", function() {
@@ -115,16 +105,58 @@
       
       expect(view.childViews.length).toEqual(1);
     
-      var fakeTiView = {
+      var fakeTiObject = {
         addTab: function() {}
       };
-      view.set('tiView', fakeTiView);
-      spyOn(fakeTiView, 'addTab');
+      view.set('tiObject', fakeTiObject);
+      spyOn(fakeTiObject, 'addTab');
       
       view.render();
       
-      expect(fakeTiView.addTab).toHaveBeenCalled();
-      expect(fakeTiView.addTab.callCount).toEqual(1);
+      expect(fakeTiObject.addTab).toHaveBeenCalled();
+      expect(fakeTiObject.addTab.callCount).toEqual(1);
+    });
+  });
+  
+  describe("SCTi.ImageView", function() {
+    it("should be defined", function() {
+      expect(SCTi.ImageView).toBeDefined();
+    });
+  
+    it("should be able to create a Ti.UI.ImageView", function() {
+      var view = SCTi.ImageView.create(), tiView;
+      
+      tiView = view.createObject();
+      
+      expect(tiView).toBeDefined();
+    });
+  });
+  
+  describe("SCTi.TextArea", function() {
+    it("should be defined", function() {
+      expect(SCTi.TextArea).toBeDefined();
+    });
+  
+    it("should be able to create a Ti.UI.TextArea", function() {
+      var view = SCTi.TextArea.create(), tiView;
+      
+      tiView = view.createObject();
+      
+      expect(tiView).toBeDefined();
+    });
+  });
+  
+  describe("SCTi.AlertDialog", function() {
+    it("should be defined", function() {
+      expect(SCTi.AlertDialog).toBeDefined();
+    });
+  
+    it("should be able to create a Ti.UI.AlertDialog", function() {
+      var view = SCTi.AlertDialog.create(), tiView;
+      
+      tiView = view.createObject();
+      
+      expect(tiView).toBeDefined();
     });
   });
   

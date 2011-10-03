@@ -5,27 +5,27 @@
     });
   
     it("should be able to create a Ti.UI.View", function() {
-      var view = SCTi.View.create(), tiView;
+      var view = SCTi.View.create(), tiObject;
       
-      tiView = view.createView();
+      tiObject = view.createObject();
       
-      expect(tiView).toBeDefined();
+      expect(tiObject).toBeDefined();
     });
     
     it("should only create a Ti.UI.View once", function() {
-      var view = SCTi.View.create(), tiView1, tiView2;
+      var view = SCTi.View.create(), tiObject1, tiObject2;
       
-      tiView1 = view.createView();
-      tiView2 = view.createView();
+      tiObject1 = view.createObject();
+      tiObject2 = view.createObject();
       
-      expect(tiView1).toEqual(tiView2);
+      expect(tiObject1).toEqual(tiObject2);
     });
     
-    it("should store the Titanium view in the tiView property", function() {
-      var view = SCTi.View.create(), tiView;
-      view.createView();
-      tiView = view.get('tiView');
-      expect(tiView).toBeDefined();
+    it("should store the Titanium view in the tiObject property", function() {
+      var view = SCTi.View.create(), tiObject;
+      view.createObject();
+      tiObject = view.get('tiObject');
+      expect(tiObject).toBeDefined();
     });
     
     it("should be able to add childViews", function() {
@@ -46,16 +46,16 @@
       
       expect(view.childViews.length).toEqual(1);
 
-      var fakeTiView = {
+      var fakeTiObject = {
         add: function() {}
       };
-      view.set('tiView', fakeTiView);
-      spyOn(fakeTiView, 'add');
+      view.set('tiObject', fakeTiObject);
+      spyOn(fakeTiObject, 'add');
       
       view.render();
       
-      expect(fakeTiView.add).toHaveBeenCalled();
-      expect(fakeTiView.add.callCount).toEqual(1);
+      expect(fakeTiObject.add).toHaveBeenCalled();
+      expect(fakeTiObject.add.callCount).toEqual(1);
     });
     
     it("should sync bindings before display", function() {
@@ -76,26 +76,43 @@
         backgroundColor: 'white'
       });
       
-      expect(view.optionsForTiView().backgroundColor).toEqual('white');
+      expect(view.optionsForTiObject().backgroundColor).toEqual('white');
     });
     
     it("should register event listeners", function() {
-      var view = SCTi.View.create({
+      var view = SCTi.Object.create({
         tiEvents: 'click'.w(),
         click: function() {}
       });
       
-      var fakeTiView = {
-        add: function() {},
+      var fakeTiObject = {
         addEventListener: function() {}
       };
-      view.set('tiView', fakeTiView);
-      spyOn(fakeTiView, 'addEventListener');
+      view.set('tiObject', fakeTiObject);
+      spyOn(fakeTiObject, 'addEventListener');
       
       view.render();
       
-      expect(fakeTiView.addEventListener).toHaveBeenCalled();
-      expect(fakeTiView.addEventListener.callCount).toEqual(1);
+      expect(fakeTiObject.addEventListener).toHaveBeenCalled();
+      expect(fakeTiObject.addEventListener.callCount).toEqual(1);
+    });
+    
+    it("should register renamed event listeners", function() {
+      var view = SCTi.Object.create({
+        tiEvents: 'open:opened',
+        opened: function() {}
+      });
+      
+      var fakeTiObject = {
+        addEventListener: function() {}
+      };
+      view.set('tiObject', fakeTiObject);
+      spyOn(fakeTiObject, 'addEventListener');
+      
+      view.render();
+
+      expect(fakeTiObject.addEventListener).toHaveBeenCalled();
+      expect(fakeTiObject.addEventListener.callCount).toEqual(1);
     });
 
     it("should register observers", function() {
@@ -103,13 +120,13 @@
         width: 100
       });
       
-      var tiView = view.createView();
-      expect(tiView.width).toEqual(100);
+      var tiObject = view.createObject();
+      expect(tiObject.width).toEqual(100);
 
       view.set("width", 200);
 
       SC.run(function() {
-        expect(tiView.width).toEqual(200);
+        expect(tiObject.width).toEqual(200);
       });
     });
 
