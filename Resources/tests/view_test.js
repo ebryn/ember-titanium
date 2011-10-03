@@ -80,12 +80,12 @@
     });
     
     it("should register event listeners", function() {
-      var view = SCTi.View.create({
+      var view = SCTi.Object.create({
+        tiEvents: 'click'.w(),
         click: function() {}
       });
       
       var fakeTiObject = {
-        add: function() {},
         addEventListener: function() {}
       };
       view.set('tiObject', fakeTiObject);
@@ -93,6 +93,24 @@
       
       view.render();
       
+      expect(fakeTiObject.addEventListener).toHaveBeenCalled();
+      expect(fakeTiObject.addEventListener.callCount).toEqual(1);
+    });
+    
+    it("should register renamed event listeners", function() {
+      var view = SCTi.Object.create({
+        tiEvents: 'open:opened',
+        opened: function() {}
+      });
+      
+      var fakeTiObject = {
+        addEventListener: function() {}
+      };
+      view.set('tiObject', fakeTiObject);
+      spyOn(fakeTiObject, 'addEventListener');
+      
+      view.render();
+
       expect(fakeTiObject.addEventListener).toHaveBeenCalled();
       expect(fakeTiObject.addEventListener.callCount).toEqual(1);
     });
