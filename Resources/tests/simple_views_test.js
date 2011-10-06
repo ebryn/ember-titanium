@@ -167,4 +167,18 @@
     });
   });
   
+  describe("SCTi.Animation", function() {
+    it("should be defined", function() {
+      expect(SCTi.Animation).toBeDefined();
+    });
+  
+    it("should be able to create a Ti.UI.Animation", function() {
+      var view = SCTi.Animation.create(), tiView;
+      
+      tiView = view.createObject();
+      
+      expect(tiView).toBeDefined();
+    });
+  });
+  
 })();
