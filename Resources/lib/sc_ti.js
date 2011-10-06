@@ -253,6 +253,14 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
     
     createTiObject: function(options) {
       return Ti.UI.createTab(options);
+    },
+    
+    open: function(scWindow) {
+      this.render();
+      scWindow.render();
+      get(this, 'tiObject').open(get(scWindow, 'tiObject'));
+
+      return this;
     }
   });
 

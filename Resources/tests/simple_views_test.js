@@ -67,6 +67,13 @@
       
       expect(tiObject).toBeDefined();
     });
+    
+    it("should be able to open a SCTi.Window", function() {
+      var tab = SCTi.Tab.create();
+      var win = SCTi.Window.create();
+      
+      expect(function() { tab.open(win); }).not.toThrow();
+    });
   });
   
   describe("SCTi.TabGroup", function() {
