@@ -80,6 +80,13 @@ if (RUN_TESTS) {
   });
 
   win2.add(label2);
+  
+  var animation = SCTi.Animation.create({
+    duration: 2000,
+    opacity: 0
+  });
+  
+  image.animate(animation);
 
   //  add tabs
   tabGroup.add(tab1);
