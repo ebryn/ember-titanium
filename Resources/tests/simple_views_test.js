@@ -67,6 +67,13 @@
       
       expect(tiObject).toBeDefined();
     });
+    
+    it("should be able to open a SCTi.Window", function() {
+      var tab = SCTi.Tab.create();
+      var win = SCTi.Window.create();
+      
+      expect(function() { tab.open(win); }).not.toThrow();
+    });
   });
   
   describe("SCTi.TabGroup", function() {
@@ -153,6 +160,20 @@
   
     it("should be able to create a Ti.UI.AlertDialog", function() {
       var view = SCTi.AlertDialog.create(), tiView;
+      
+      tiView = view.createObject();
+      
+      expect(tiView).toBeDefined();
+    });
+  });
+  
+  describe("SCTi.Animation", function() {
+    it("should be defined", function() {
+      expect(SCTi.Animation).toBeDefined();
+    });
+  
+    it("should be able to create a Ti.UI.Animation", function() {
+      var view = SCTi.Animation.create(), tiView;
       
       tiView = view.createObject();
       

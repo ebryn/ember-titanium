@@ -11,6 +11,16 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   SCTi = {};
   
   // Mixins
+  SCTi.Animatable = {
+    animate: function(scAnimation) {
+      this.render();
+      scAnimation.render();
+      get(this, 'tiObject').animate(get(scAnimation, 'tiObject'));
+      
+      return this;
+    }
+  };
+  
   SCTi.Openable = {
     open: function() {
       this.render();
@@ -152,7 +162,7 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
     }
   });
   
-  SCTi.View = SCTi.Object.extend(SCTi.Hideable, {
+  SCTi.View = SCTi.Object.extend(SCTi.Animatable, SCTi.Hideable, {
     tiOptions: 'anchorPoint animatedCenterPoint backgroundColor backgroundDisabledColor backgroundDisabledImage backgroundFocusedColor backgroundFocusedImage backgroundGradient backgroundImage backgroundLeftCap backgroundSelectedColor backgroundSelectedImage backgroundTopCap borderColor borderRadius borderWidth bottom center focusable font fontFamily fontSize fontStyle fontWeight height layout left opacity right size softKeyboardOnFocus top touchEnabled transform visible width zIndex'.w(),
     tiEvents: 'click dblclick doubletap singletap swipe touchcancel touchend touchmove touchstart twofingertap'.w(),
     
@@ -243,6 +253,14 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
     
     createTiObject: function(options) {
       return Ti.UI.createTab(options);
+    },
+    
+    open: function(scWindow) {
+      this.render();
+      scWindow.render();
+      get(this, 'tiObject').open(get(scWindow, 'tiObject'));
+
+      return this;
     }
   });
 
@@ -290,6 +308,15 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
     
     createTiObject: function(options) {
       return Ti.UI.createAlertDialog(options);
+    }
+  });
+  
+  SCTi.Animation = SCTi.View.extend({
+    tiOptions: 'autoreverse color curve delay duration opaque repeat transition'.w(),
+    tiEvents: 'complete start'.w(),
+    
+    createTiObject: function(options) {
+      return Ti.UI.createAnimation(options);
     }
   });
   

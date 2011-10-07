@@ -1,4 +1,22 @@
 (function() {
+  describe("SCTi.Animatable", function() {
+    it("should be defined", function() {
+      expect(SCTi.Animatable).toBeDefined();
+    });
+    
+    it("should animate", function() {
+      var view = SCTi.Object.create(SCTi.Animatable),
+          animation = SCTi.Animation.create();
+          
+      var fakeTiObject = {
+        animate: function(animation) {}
+      };
+      view.set('tiObject', fakeTiObject);
+      
+      expect(function() { view.animate(animation); }).not.toThrow();
+    });
+  });
+  
   describe("SCTi.Openable", function() {
     it("should be defined", function() {
       expect(SCTi.Openable).toBeDefined();
