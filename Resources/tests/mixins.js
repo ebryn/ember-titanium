@@ -6,14 +6,15 @@
     
     it("should animate", function() {
       var view = SCTi.Object.create(SCTi.Animatable),
-          animation = SCTi.Animation.create();
+          animation = SCTi.Animation.create(),
+          wasCalled = false;
           
-      var fakeTiObject = {
-        animate: function(animation) {}
-      };
-      view.set('tiObject', fakeTiObject);
+      view.set('tiObject', {
+        animate: function(animation) { wasCalled = true; }
+      });
       
-      expect(function() { view.animate(animation); }).not.toThrow();
+      view.animate(animation);
+      expect(wasCalled).toEqual(true);
     });
   });
   
@@ -23,25 +24,25 @@
     });
     
     it("should be openable", function() {
-      var view = SCTi.Object.create(SCTi.Openable);
+      var view = SCTi.Object.create(SCTi.Openable), wasCalled = false;
       
-      var fakeTiObject = {
-        open: function() {}
-      };
-      view.set('tiObject', fakeTiObject);
+      view.set('tiObject', {
+        open: function() { wasCalled = true; }
+      });
       
-      expect(function() { view.open(); }).not.toThrow();
+      view.open();
+      expect(wasCalled).toEqual(true);
     });
     
     it("should be closable", function() {
-      var view = SCTi.Object.create(SCTi.Openable);
+      var view = SCTi.Object.create(SCTi.Openable), wasCalled = false;
       
-      var fakeTiObject = {
-        close: function() {}
-      };
-      view.set('tiObject', fakeTiObject);
+      view.set('tiObject', {
+        close: function() { wasCalled = true; }
+      });
       
-      expect(function() { view.close(); }).not.toThrow();
+      view.close();
+      expect(wasCalled).toEqual(true);
     });
   });
   
@@ -51,25 +52,25 @@
     });
     
     it("should be hideable", function() {
-      var view = SCTi.Object.create(SCTi.Hideable);
+      var view = SCTi.Object.create(SCTi.Hideable), wasCalled = false;
       
-      var fakeTiObject = {
-        hide: function() {}
-      };
-      view.set('tiObject', fakeTiObject);
+      view.set('tiObject', {
+        hide: function() { wasCalled = true; }
+      });
       
-      expect(function() { view.hide(); }).not.toThrow();
+      view.hide();
+      expect(wasCalled).toEqual(true);
     });
     
     it("should be showable", function() {
-      var view = SCTi.Object.create(SCTi.Hideable);
+      var view = SCTi.Object.create(SCTi.Hideable), wasCalled = false;
       
-      var fakeTiObject = {
-        show: function() {}
-      };
-      view.set('tiObject', fakeTiObject);
+      view.set('tiObject', {
+        show: function() { wasCalled = true; }
+      });
       
-      expect(function() { view.show(); }).not.toThrow();
+      view.show();
+      expect(wasCalled).toEqual(true);
     });
   });
 })();
