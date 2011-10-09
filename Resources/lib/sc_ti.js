@@ -259,7 +259,7 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   });
   
   SCTi.TextField = SCTi.View.extend({
-    tiOptions: 'autocapitalization borderStyle:borderStyleConstant clearButtonMode clearOnEdit editable enabled hintText keyboardToolbar keyboardToolbarColor keyboardToolbarHeight leftButton leftButtonMode leftButtonPadding minimumFontSize paddingLeft paddingRight rightButton rightButtonMode rightButtonPadding suppressReturn value verticalAlign'.w(),
+    tiOptions: 'autocapitalization borderStyle:borderStyleConstant clearButtonMode:clearButtonModeConstant clearOnEdit editable enabled hintText keyboardToolbar keyboardToolbarColor keyboardToolbarHeight keyboardType:keyboardTypeConstant leftButton leftButtonMode leftButtonPadding minimumFontSize paddingLeft paddingRight rightButton rightButtonMode rightButtonPadding suppressReturn value verticalAlign'.w(),
     tiEvents: 'focus blur change hasText'.w(),
     tiConstantMappings: {
       borderStyle: {
@@ -267,10 +267,27 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
         line: Ti.UI.INPUT_BORDERSTYLE_LINE,
         bezel: Ti.UI.INPUT_BORDERSTYLE_BEZEL,
         rounded: Ti.UI.INPUT_BORDERSTYLE_ROUNDED
+      },
+      clearButtonMode: {
+        always: Ti.UI.INPUT_BUTTONMODE_ALWAYS,
+        never: Ti.UI.INPUT_BUTTONMODE_NEVER,
+        blur: Ti.UI.INPUT_BUTTONMODE_ONBLUR,
+        focus: Ti.UI.INPUT_BUTTONMODE_ONFOCUS
+      },
+      keyboardType: {
+        ascii: Ti.UI.KEYBOARD_ASCII,
+        'default': Ti.UI.KEYBOARD_DEFAULT,
+        email: Ti.UI.KEYBOARD_EMAIL,
+        alphanumeric: Ti.UI.KEYBOARD_NAMEPHONE_PAD,
+        numbers_punctuation: Ti.UI.KEYBOARD_NUMBERS_PUNCTUATION,
+        numbers: Ti.UI.KEYBOARD_NUMBER_PAD,
+        phone: Ti.UI.KEYBOARD_PHONE_PAD,
+        url: Ti.UI.KEYBOARD_URL
       }
     },
     
     borderStyle: 'none',
+    clearButtonMode: 'focus',
     
     createTiObject: function(options) {
       return Ti.UI.createTextField(options);
