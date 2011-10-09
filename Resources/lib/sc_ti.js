@@ -58,6 +58,7 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
     tiObject: null,
     tiOptions: [],
     tiEvents: [],
+    tiConstantMappings: {},
     
     concatenatedProperties: ['tiOptions', 'tiEvents'],
     
@@ -102,23 +103,6 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
       return this;
     },
     
-    optionsForTiObject: function() {
-      var self = this, tiObjectOptions = {};
-      
-      this.forEachValidTiOption(function(optionName) {
-        var optionVal = get(self, optionName);
-        // Assign the Ti Object if the value is an SC wrapped Ti Object
-        if (optionVal instanceof SCTi.Object) {
-          optionVal.render();
-          tiObjectOptions[optionName] = get(optionVal, 'tiObject'); 
-        } else {
-          tiObjectOptions[optionName] = get(self, optionName); 
-        }
-      });
-      
-      return tiObjectOptions;
-    },
-    
     registerEvents: function() {
       var self = this, tiObject = get(this, 'tiObject'), tiEvents = get(this, 'tiEvents');
       tiEvents.forEach(function(eventName) {
@@ -131,17 +115,54 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
       });
     },
 
+    getTiOptionValue: function(optionName) {
+      var tiOptionName = optionName, translatedOptionName, splitOptionNames, val;
+      
+      if (optionName.indexOf(':') !== -1) {
+        splitOptionNames = optionName.split(':');
+        tiOptionName = splitOptionNames[0];
+        translatedOptionName = splitOptionNames[1];
+        val = get(this, translatedOptionName);
+      } else {
+        val = get(this, tiOptionName);
+      }
+      
+      return val;      
+    },
+    
     forEachValidTiOption: function(callback) {
       var self = this, tiOptions = get(this, 'tiOptions');
 
       tiOptions.forEach(function(optionName) {
-        var val = get(self, optionName);
+        var val = self.getTiOptionValue(optionName);
+        
         if (val !== undefined && val !== null) {
           callback.call(this, optionName);
         }
       });
 
       return this;
+    },
+        
+    optionsForTiObject: function() {
+      var self = this, tiObjectOptions = {};
+      
+      this.forEachValidTiOption(function(optionName) {
+        var optionVal = self.getTiOptionValue(optionName), tiOptionName = optionName;
+        
+        if (optionName.indexOf(':') !== -1) {
+          tiOptionName = optionName.split(':')[0];
+        }
+        // Assign the Ti Object if the value is an SC wrapped Ti Object
+        if (optionVal instanceof SCTi.Object) {
+          optionVal.render();
+          tiObjectOptions[tiOptionName] = get(optionVal, 'tiObject'); 
+        } else {
+          tiObjectOptions[tiOptionName] = optionVal;
+        }
+      });
+      
+      return tiObjectOptions;
     },
 
     createObservers: function() {
@@ -159,6 +180,18 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
 
         SC.addObserver(self, optionName, observer);
       });
+    },
+    
+    unknownProperty: function(key, value) {
+      var isConstant = /^.+Constant$/.test(key), propertyName, constantMap;
+      
+      if (isConstant) {
+        propertyName = key.slice(0,-8);
+        constantMap = get(this, 'tiConstantMappings')[propertyName];
+        if (constantMap) {
+          return constantMap[get(this, propertyName)];
+        }
+      }
     }
   });
   
@@ -226,14 +259,23 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   });
   
   SCTi.TextField = SCTi.View.extend({
-    tiOptions: 'autocapitalization borderStyle clearButtonMode clearOnEdit editable enabled hintText keyboardToolbar keyboardToolbarColor keyboardToolbarHeight leftButton leftButtonMode leftButtonPadding minimumFontSize paddingLeft paddingRight rightButton rightButtonMode rightButtonPadding suppressReturn value verticalAlign'.w(),
+    tiOptions: 'autocapitalization borderStyle:borderStyleConstant clearButtonMode clearOnEdit editable enabled hintText keyboardToolbar keyboardToolbarColor keyboardToolbarHeight leftButton leftButtonMode leftButtonPadding minimumFontSize paddingLeft paddingRight rightButton rightButtonMode rightButtonPadding suppressReturn value verticalAlign'.w(),
     tiEvents: 'focus blur change hasText'.w(),
+    tiConstantMappings: {
+      borderStyle: {
+        none: Ti.UI.INPUT_BORDERSTYLE_NONE,
+        line: Ti.UI.INPUT_BORDERSTYLE_LINE,
+        bezel: Ti.UI.INPUT_BORDERSTYLE_BEZEL,
+        rounded: Ti.UI.INPUT_BORDERSTYLE_ROUNDED
+      }
+    },
+    
+    borderStyle: 'none',
     
     createTiObject: function(options) {
-      options.borderStyle = options.borderStyle || Ti.UI.INPUT_BORDERSTYLE_NONE;
       return Ti.UI.createTextField(options);
     },
-
+    
     change: function() {
       var self = this, tiObject = get(this, 'tiObject');
       set(self, 'value', tiObject.value);

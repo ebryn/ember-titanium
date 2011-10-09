@@ -134,5 +134,18 @@
       });
     });
 
+    it("should translate constants", function() {
+      var constantValue = 123, MyObject = SCTi.Object.extend({
+        tiOptions: "borderStyle:borderStyleConstant",
+        tiConstantMappings: {
+          borderStyle: {
+            line: constantValue
+          }
+        }
+      }), obj = MyObject.create({borderStyle: 'line'});
+      
+      expect(obj.get('borderStyleConstant')).toEqual(constantValue);
+      expect(obj.optionsForTiObject()['borderStyle']).toEqual(constantValue);
+    });
   });
 })();
