@@ -15,6 +15,7 @@
   Ti.include('/tests/view_test.js');
   Ti.include('/tests/simple_views_test.js');
   Ti.include('/tests/mixins.js');
+  Ti.include('/tests/collection_view_test.js');
     
   jasmine.getEnv().addReporter(new jasmine.TitaniumReporter());
   jasmine.getEnv().execute();

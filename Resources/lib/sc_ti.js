@@ -438,4 +438,108 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
     }
   });
   
+  SCTi.CollectionView = SCTi.Object.extend({
+    tiOptions: "layout".w(),
+    
+    layout: "vertical",
+    content: [],
+    childViews: [],
+    itemViewClass: SCTi.View,
+    
+    init: function() {
+      var content = get(this, 'content');
+      
+      this._super();
+      
+      this.contentDidChange(); // to set childViews array
+      content.addArrayObserver(this);
+    },
+    
+    contentWillChange: function() {
+      var content = get(this, 'content');
+      console.log('contentWillChange');
+      content.removeArrayObserver(this);
+    }.observesBefore('content'),
+    
+    contentDidChange: function() {
+      var self = this, content = get(this, 'content'), childViews = get(this, 'childViews'), itemViewClass = get(this, 'itemViewClass');
+      console.log('contentDidChange');
+      childViews.splice(0, childViews.length);
+      if (get(content, 'length')) {
+        content.forEach(function(el) {
+          var row = self.createChildView(itemViewClass, {content: el, titleBinding: "content.title"});
+          childViews.push(row);
+        });
+      }
+    }.observes('content'),
+    
+    arrayWillChange: function(content, startIdx, removedCount, addedCount) {
+      var childViews = get(this, 'childViews');
+      console.log('arrayWillChange', arguments);
+      
+      if (removedCount) {
+        childViews.splice(startIdx, startIdx+removedCount-1);
+      }
+    },
+    
+    arrayDidChange: function(content, startIdx, removedCount, addedCount) {
+      var self = this, childViews = get(this, 'childViews'), itemViewClass = get(this, 'itemViewClass');
+      console.log('arrayDidChange', arguments);
+
+      if (addedCount) {
+        content.slice(startIdx, startIdx+addedCount).forEach(function(el) {
+          childViews.push(self.createChildView(itemViewClass, {content: el, titleBinding: "content.title"}));
+        });
+      }
+    },
+    
+    createChildView: function(viewClass, attrs) {
+      // attrs.height = attrs.height || "30";
+      return viewClass.create(attrs);
+    },
+    
+    createTiObject: function(options) {
+      return Ti.UI.createView(options);
+    },
+    
+    addChildView: function(tiObject, childView) {
+      tiObject.add(get(childView, 'tiObject'));
+    },
+    
+    render: function() {
+      var tiObject = this.createObject(), childViews = get(this, 'childViews');
+      
+      if (get(this, 'isRendered')) { return this; }
+      
+      this._super();
+
+      for (var i = 0; i < childViews.length; i++) {
+        var childView = childViews[i];
+        childView.render();
+        this.addChildView(tiObject, childView);
+      }
+      
+      return this;
+    }
+  });
+  
+  SCTi.TableViewRow = SCTi.View.extend({
+    tiOptions: "title".w(),
+    
+    createTiObject: function(options) {
+      return Ti.UI.createTableViewRow(options);
+    }
+  });
+  
+  SCTi.TableView = SCTi.CollectionView.extend({
+    itemViewClass: SCTi.TableViewRow,
+    
+    createTiObject: function(options) {
+      return Ti.UI.createTableView(options);
+    },
+    
+    addChildView: function(tiObject, childView) {
+      tiObject.appendRow(get(childView, 'tiObject'));
+    }
+  });
 })();
