@@ -10,6 +10,14 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   
   SCTi = {};
   
+  // Constants
+  SCTi.AUTOCAPITALIZATION_CONSTANTS = {
+    all: Ti.UI.TEXT_AUTOCAPITALIZATION_ALL,
+    none: Ti.UI.TEXT_AUTOCAPITALIZATION_NONE,
+    sentences: Ti.UI.TEXT_AUTOCAPITALIZATION_SENTENCES,
+    words: Ti.UI.TEXT_AUTOCAPITALIZATION_WORDS
+  };
+  
   // Mixins
   SCTi.Animatable = {
     animate: function(scAnimation) {
@@ -251,7 +259,14 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   });
   
   SCTi.Label = SCTi.View.extend({
-    tiOptions: 'autoLink backgroundPaddingBottom backgroundPaddingLeft backgroundPaddingRight backgroundPaddingTop color ellipsize font highlightedColor html minimumFontSize shadowColor shadowOffset text textAlign textid wordWrap'.w(),
+    tiOptions: 'autoLink backgroundPaddingBottom backgroundPaddingLeft backgroundPaddingRight backgroundPaddingTop color ellipsize font highlightedColor html minimumFontSize shadowColor shadowOffset text textAlign:textAlignConstant textid wordWrap'.w(),
+    tiConstantMappings: {
+      textAlign: {
+        center: Ti.UI.TEXT_ALIGNMENT_CENTER,
+        left: Ti.UI.TEXT_ALIGNMENT_LEFT,
+        right: Ti.UI.TEXT_ALIGNMENT_RIGHT
+      }
+    },
     
     createTiObject: function(options) {
       return Ti.UI.createLabel(options);
@@ -259,9 +274,10 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   });
   
   SCTi.TextField = SCTi.View.extend({
-    tiOptions: 'autocapitalization borderStyle:borderStyleConstant clearButtonMode:clearButtonModeConstant clearOnEdit editable enabled hintText keyboardToolbar keyboardToolbarColor keyboardToolbarHeight keyboardType:keyboardTypeConstant leftButton leftButtonMode leftButtonPadding minimumFontSize paddingLeft paddingRight rightButton rightButtonMode rightButtonPadding suppressReturn value verticalAlign'.w(),
+    tiOptions: 'autocapitalization:autocapitalizationConstant borderStyle:borderStyleConstant clearButtonMode:clearButtonModeConstant clearOnEdit editable enabled hintText keyboardToolbar keyboardToolbarColor keyboardToolbarHeight keyboardType:keyboardTypeConstant leftButton leftButtonMode leftButtonPadding minimumFontSize paddingLeft paddingRight rightButton rightButtonMode rightButtonPadding suppressReturn value verticalAlign:verticalAlignConstant'.w(),
     tiEvents: 'focus blur change hasText'.w(),
     tiConstantMappings: {
+      autocapitalization: SCTi.AUTOCAPITALIZATION_CONSTANTS,
       borderStyle: {
         none: Ti.UI.INPUT_BORDERSTYLE_NONE,
         line: Ti.UI.INPUT_BORDERSTYLE_LINE,
@@ -283,6 +299,11 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
         numbers: Ti.UI.KEYBOARD_NUMBER_PAD,
         phone: Ti.UI.KEYBOARD_PHONE_PAD,
         url: Ti.UI.KEYBOARD_URL
+      },
+      verticalAlign: {
+        bottom: Ti.UI.TEXT_VERTICAL_ALIGNMENT_BOTTOM,
+        center: Ti.UI.TEXT_VERTICAL_ALIGNMENT_CENTER,
+        top: Ti.UI.TEXT_VERTICAL_ALIGNMENT_TOP
       }
     },
     
@@ -300,7 +321,15 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   });
   
   SCTi.Button = SCTi.View.extend({
-    tiOptions: 'color enabled font image selectedColor style title titleid'.w(),
+    tiOptions: 'color enabled font image selectedColor style:styleConstant title titleid'.w(),
+    tiConstantMappings: {
+      style: {
+        bar: Titanium.UI.iPhone.SystemButtonStyle.BAR,
+        bordered: Titanium.UI.iPhone.SystemButtonStyle.BORDERED,
+        done: Titanium.UI.iPhone.SystemButtonStyle.DONE,
+        plain: Titanium.UI.iPhone.SystemButtonStyle.PLAIN
+      }
+    },
     
     createTiObject: function(options) {
       return Ti.UI.createButton(options);
@@ -353,8 +382,11 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   });
 
   SCTi.TextArea = SCTi.View.extend({
-    tiOptions: 'autoLink autocapitalization editable enabled keyboardToolbar keyboardToolbarColor keyboardToolbarHeight suppressReturn value'.w(),
+    tiOptions: 'autoLink autocapitalization:autocapitalizationConstant editable enabled keyboardToolbar keyboardToolbarColor keyboardToolbarHeight suppressReturn value'.w(),
     tiEvents: 'blur change focus return selected'.w(),
+    tiConstantMappings: {
+      autocapitalization: SCTi.AUTOCAPITALIZATION_CONSTANTS
+    },
     
     createTiObject: function(options) {
       return Ti.UI.createTextArea(options);
@@ -371,8 +403,16 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   });
   
   SCTi.Animation = SCTi.View.extend({
-    tiOptions: 'autoreverse color curve delay duration opaque repeat transition'.w(),
+    tiOptions: 'autoreverse color curve:curveConstant delay duration opaque repeat transition'.w(),
     tiEvents: 'complete start'.w(),
+    tiConstantMappings: {
+      curve: {
+        easeIn: Ti.UI.ANIMATION_CURVE_EASE_IN,
+        easeInOut: Ti.UI.ANIMATION_CURVE_EASE_IN_OUT,
+        easeOut: Ti.UI.ANIMATION_CURVE_EASE_OUT,
+        linear: Ti.UI.ANIMATION_CURVE_LINEAR
+      }
+    },
     
     createTiObject: function(options) {
       return Ti.UI.createAnimation(options);
