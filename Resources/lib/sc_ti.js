@@ -18,6 +18,31 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
     words: Ti.UI.TEXT_AUTOCAPITALIZATION_WORDS
   };
   
+  SCTi.KEYBOARD_TYPE_CONSTANTS = {
+    ascii: Ti.UI.KEYBOARD_ASCII,
+    'default': Ti.UI.KEYBOARD_DEFAULT,
+    email: Ti.UI.KEYBOARD_EMAIL,
+    alphanumeric: Ti.UI.KEYBOARD_NAMEPHONE_PAD,
+    numbers_punctuation: Ti.UI.KEYBOARD_NUMBERS_PUNCTUATION,
+    numbers: Ti.UI.KEYBOARD_NUMBER_PAD,
+    phone: Ti.UI.KEYBOARD_PHONE_PAD,
+    url: Ti.UI.KEYBOARD_URL
+  };
+  
+  SCTi.RETURNKEY_CONSTANTS = {
+    'default': Ti.UI.RETURNKEY_DEFAULT,
+    done: Ti.UI.RETURNKEY_DONE,
+    emergency_call: Ti.UI.RETURNKEY_EMERGENCY_CALL,
+    go: Ti.UI.RETURNKEY_GO,
+    google: Ti.UI.RETURNKEY_GOOGLE,
+    join: Ti.UI.RETURNKEY_JOIN,
+    next: Ti.UI.RETURNKEY_NEXT,
+    route: Ti.UI.RETURNKEY_ROUTE,
+    search: Ti.UI.RETURNKEY_SEARCH,
+    send: Ti.UI.RETURNKEY_SEND,
+    yahoo: Ti.UI.RETURNKEY_YAHOO
+  };
+  
   // Mixins
   SCTi.Animatable = {
     animate: function(scAnimation) {
@@ -274,7 +299,7 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   });
   
   SCTi.TextField = SCTi.View.extend({
-    tiOptions: 'autocapitalization:autocapitalizationConstant borderStyle:borderStyleConstant clearButtonMode:clearButtonModeConstant clearOnEdit editable enabled hintText keyboardToolbar keyboardToolbarColor keyboardToolbarHeight keyboardType:keyboardTypeConstant leftButton leftButtonMode leftButtonPadding minimumFontSize paddingLeft paddingRight rightButton rightButtonMode rightButtonPadding suppressReturn value verticalAlign:verticalAlignConstant'.w(),
+    tiOptions: 'autocapitalization:autocapitalizationConstant borderStyle:borderStyleConstant clearButtonMode:clearButtonModeConstant clearOnEdit editable enabled hintText keyboardToolbar keyboardToolbarColor keyboardToolbarHeight keyboardType:keyboardTypeConstant leftButton leftButtonMode leftButtonPadding minimumFontSize paddingLeft paddingRight returnKeyType:returnKeyTypeConstant rightButton rightButtonMode rightButtonPadding suppressReturn value verticalAlign:verticalAlignConstant'.w(),
     tiEvents: 'focus blur change hasText'.w(),
     tiConstantMappings: {
       autocapitalization: SCTi.AUTOCAPITALIZATION_CONSTANTS,
@@ -290,16 +315,8 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
         blur: Ti.UI.INPUT_BUTTONMODE_ONBLUR,
         focus: Ti.UI.INPUT_BUTTONMODE_ONFOCUS
       },
-      keyboardType: {
-        ascii: Ti.UI.KEYBOARD_ASCII,
-        'default': Ti.UI.KEYBOARD_DEFAULT,
-        email: Ti.UI.KEYBOARD_EMAIL,
-        alphanumeric: Ti.UI.KEYBOARD_NAMEPHONE_PAD,
-        numbers_punctuation: Ti.UI.KEYBOARD_NUMBERS_PUNCTUATION,
-        numbers: Ti.UI.KEYBOARD_NUMBER_PAD,
-        phone: Ti.UI.KEYBOARD_PHONE_PAD,
-        url: Ti.UI.KEYBOARD_URL
-      },
+      keyboardType: SCTi.KEYBOARD_TYPE_CONSTANTS,
+      returnKeyType: SCTi.RETURNKEY_CONSTANTS,
       verticalAlign: {
         bottom: Ti.UI.TEXT_VERTICAL_ALIGNMENT_BOTTOM,
         center: Ti.UI.TEXT_VERTICAL_ALIGNMENT_CENTER,
@@ -382,10 +399,12 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   });
 
   SCTi.TextArea = SCTi.View.extend({
-    tiOptions: 'autoLink autocapitalization:autocapitalizationConstant editable enabled keyboardToolbar keyboardToolbarColor keyboardToolbarHeight suppressReturn value'.w(),
+    tiOptions: 'autoLink autocapitalization:autocapitalizationConstant editable enabled keyboardToolbar keyboardToolbarColor keyboardToolbarHeight returnKeyType:returnKeyTypeConstant suppressReturn value'.w(),
     tiEvents: 'blur change focus return selected'.w(),
     tiConstantMappings: {
-      autocapitalization: SCTi.AUTOCAPITALIZATION_CONSTANTS
+      autocapitalization: SCTi.AUTOCAPITALIZATION_CONSTANTS,
+      keyboardType: SCTi.KEYBOARD_TYPE_CONSTANTS,
+      returnKeyType: SCTi.RETURNKEY_CONSTANTS 
     },
     
     createTiObject: function(options) {
