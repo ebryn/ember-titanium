@@ -300,7 +300,7 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   
   SCTi.TextField = SCTi.View.extend({
     tiOptions: 'autocapitalization:autocapitalizationConstant borderStyle:borderStyleConstant clearButtonMode:clearButtonModeConstant clearOnEdit editable enabled hintText keyboardToolbar keyboardToolbarColor keyboardToolbarHeight keyboardType:keyboardTypeConstant leftButton leftButtonMode leftButtonPadding minimumFontSize paddingLeft paddingRight returnKeyType:returnKeyTypeConstant rightButton rightButtonMode rightButtonPadding suppressReturn value verticalAlign:verticalAlignConstant'.w(),
-    tiEvents: 'focus blur change hasText'.w(),
+    tiEvents: 'focus blur change hasText return'.w(),
     tiConstantMappings: {
       autocapitalization: SCTi.AUTOCAPITALIZATION_CONSTANTS,
       borderStyle: {
