@@ -60,13 +60,11 @@
     
     it("should be able to add childViews after render", function() {
       var view = SCTi.View.create(),
-          childView = SCTi.View.create({backgroundColor: '#fff'});
+          childView = SCTi.View.create();
       
       view.render();
 
       view.add(childView);
-      
-      Ti.API.info(childView.get('tiObject'));
       
       expect(childView.get('tiObject')).toNotEqual(null);
     });
