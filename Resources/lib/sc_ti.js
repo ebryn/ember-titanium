@@ -268,6 +268,12 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
     add: function(view) {
       var childViews = get(this, 'childViews');
       childViews.push(view);
+      
+      if (get(this, 'isRendered')) {
+        view.render();
+        this.addChildView(get(this, 'tiObject'), view);
+      }
+      
       return this;
     },
     

@@ -58,6 +58,19 @@
       expect(fakeTiObject.add.callCount).toEqual(1);
     });
     
+    it("should be able to add childViews after render", function() {
+      var view = SCTi.View.create(),
+          childView = SCTi.View.create({backgroundColor: '#fff'});
+      
+      view.render();
+
+      view.add(childView);
+      
+      Ti.API.info(childView.get('tiObject'));
+      
+      expect(childView.get('tiObject')).toNotEqual(null);
+    });
+    
     it("should sync bindings before display", function() {
       var view = SCTi.View.create({
         content: SC.Object.create({value: "OHAI"}),
