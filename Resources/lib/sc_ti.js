@@ -44,7 +44,7 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   };
   
   // Mixins
-  SCTi.Animatable = {
+  SCTi.Animatable = SC.Mixin.create({
     animate: function(scAnimation) {
       this.render();
       scAnimation.render();
@@ -52,9 +52,9 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
       
       return this;
     }
-  };
+  });
   
-  SCTi.Openable = {
+  SCTi.Openable = SC.Mixin.create({
     open: function(options) {
       this.render();
       get(this, 'tiObject').open(options);
@@ -68,9 +68,9 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
       
       return this;
     }
-  };
+  });
   
-  SCTi.Hideable = {
+  SCTi.Hideable = SC.Mixin.create({
     hide: function() {
       this.render();
       get(this, 'tiObject').hide();
@@ -84,9 +84,9 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
       
       return this;
     }
-  };
+  });
   
-  SCTi.Focusable = {
+  SCTi.Focusable = SC.Mixin.create({
     tiEvents: 'focus:focused blur:blurred'.w(),
     
     blur: function() {
@@ -102,7 +102,7 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
 
       return this;
     }
-  };
+  });
   
   // SproutCore Wrapped Titanium Objects
   SCTi.Object = SC.Object.extend({
