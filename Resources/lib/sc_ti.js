@@ -86,6 +86,24 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
     }
   };
   
+  SCTi.Focusable = {
+    tiEvents: 'focus:focused blur:blurred'.w(),
+    
+    blur: function() {
+      this.render();
+      get(this, 'tiObject').blur();
+
+      return this;
+    },
+    
+    focus: function() {
+      this.render();
+      get(this, 'tiObject').focus();
+
+      return this;
+    }
+  };
+  
   // SproutCore Wrapped Titanium Objects
   SCTi.Object = SC.Object.extend({
     tiObject: null,
@@ -298,9 +316,9 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
     }
   });
   
-  SCTi.TextField = SCTi.View.extend({
+  SCTi.TextField = SCTi.View.extend(SCTi.Focusable, {
     tiOptions: 'autocapitalization:autocapitalizationConstant borderStyle:borderStyleConstant clearButtonMode:clearButtonModeConstant clearOnEdit editable enabled hintText keyboardToolbar keyboardToolbarColor keyboardToolbarHeight keyboardType:keyboardTypeConstant leftButton leftButtonMode leftButtonPadding minimumFontSize paddingLeft paddingRight returnKeyType:returnKeyTypeConstant rightButton rightButtonMode rightButtonPadding suppressReturn value verticalAlign:verticalAlignConstant'.w(),
-    tiEvents: 'focus blur change hasText return'.w(),
+    tiEvents: 'change hasText return'.w(),
     tiConstantMappings: {
       autocapitalization: SCTi.AUTOCAPITALIZATION_CONSTANTS,
       borderStyle: {
@@ -398,9 +416,9 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
     }
   });
 
-  SCTi.TextArea = SCTi.View.extend({
+  SCTi.TextArea = SCTi.View.extend(SCTi.Focusable, {
     tiOptions: 'autoLink autocapitalization:autocapitalizationConstant editable enabled keyboardToolbar keyboardToolbarColor keyboardToolbarHeight returnKeyType:returnKeyTypeConstant suppressReturn value'.w(),
-    tiEvents: 'blur change focus return selected'.w(),
+    tiEvents: 'change return selected'.w(),
     tiConstantMappings: {
       autocapitalization: SCTi.AUTOCAPITALIZATION_CONSTANTS,
       keyboardType: SCTi.KEYBOARD_TYPE_CONSTANTS,
