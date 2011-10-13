@@ -55,9 +55,9 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   };
   
   SCTi.Openable = {
-    open: function() {
+    open: function(options) {
       this.render();
-      get(this, 'tiObject').open();
+      get(this, 'tiObject').open(options);
       
       return this;
     },
