@@ -158,5 +158,15 @@
       expect(obj.get('borderStyleConstant')).toEqual(constantValue);
       expect(obj.optionsForTiObject()['borderStyle']).toEqual(constantValue);
     });
+    
+    it("should passthrough constants", function() {
+      var constantValue = 123, MyObject = SCTi.Object.extend({
+        tiOptions: "borderStyle:borderStyleConstant"
+      }), obj = MyObject.create({borderStyle: constantValue});
+      
+      expect(obj.get('borderStyleConstant')).toEqual(constantValue);
+      expect(obj.optionsForTiObject()['borderStyle']).toEqual(constantValue);
+    });
+
   });
 })();

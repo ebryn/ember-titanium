@@ -234,15 +234,19 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
     },
     
     unknownProperty: function(key, value) {
-      var isConstant = /^.+Constant$/.test(key), propertyName, constantMap;
+      var isConstant = /^.+Constant$/.test(key), propertyName, constantMap, ret;
       
       if (isConstant) {
         propertyName = key.slice(0,-8);
         constantMap = get(this, 'tiConstantMappings')[propertyName];
         if (constantMap) {
-          return constantMap[get(this, propertyName)];
+          ret = constantMap[get(this, propertyName)];
         }
+        
+        ret = ret || get(this, propertyName);
       }
+      
+      return ret;
     }
   });
   
