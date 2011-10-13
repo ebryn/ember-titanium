@@ -73,4 +73,34 @@
       expect(wasCalled).toEqual(true);
     });
   });
+  
+  describe("SCTi.Focusable", function() {
+    it("should be defined", function() {
+      expect(SCTi.Focusable).toBeDefined();
+    });
+    
+    it("should respond to blur", function() {
+      var view = SCTi.Object.create(SCTi.Focusable),
+          wasCalled = false;
+
+      view.set('tiObject', {
+        blur: function() { wasCalled = true; }
+      });
+
+      view.blur();
+      expect(wasCalled).toEqual(true);
+    });
+
+    it("should respond to focus", function() {
+      var view = SCTi.Object.create(SCTi.Focusable),
+          wasCalled = false;
+
+      view.set('tiObject', {
+        focus: function() { wasCalled = true; }
+      });
+
+      view.focus();
+      expect(wasCalled).toEqual(true);
+    });
+  });
 })();
