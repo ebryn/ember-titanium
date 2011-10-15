@@ -87,10 +87,44 @@ if (RUN_TESTS) {
   });
   
   image.animate(animation);
+  
+  // Map Tab
+  var win3 = SCTi.Window.create({
+    title: 'Map Test'
+  });
+  
+  var mapView = SCTi.MapView.create({
+    animate: true,
+    mapType: 'standard',
+    region: {
+      latitude: 46.876951,
+      longitude: -96.78664,
+      latitudeDelta: 0.005, 
+      longitudeDelta: 0.005 },
+    regionFit: true
+  });
+  var mapAnnotation = SCTi.MapAnnotation.create({
+    animate: true,
+    latitude: 46.876951,
+    longitude: -96.78664,
+    pincolor: 'green',
+    title: 'Brian was here!',
+    subtitle: 'Mmmm... beer.'
+  });
+  mapView.add(mapAnnotation);
+  
+  win3.add(mapView);
+  
+  var tab3 = SCTi.Tab.create({
+    icon: 'KS_nav_views.png',
+    title: 'Map Test',
+    window: win3
+  });
 
   //  add tabs
   tabGroup.add(tab1);
   tabGroup.add(tab2);
+  tabGroup.add(tab3);
 
   // open tab group
   tabGroup.open();
