@@ -168,7 +168,7 @@
       expect(obj.optionsForTiObject()['borderStyle']).toEqual(constantValue);
     });
     
-    it("should all apply property changes after render", function() {
+    it("should apply any property changes after render", function() {
       var view = SCTi.View.create();
       view.render();
       
