@@ -167,6 +167,15 @@
       expect(obj.get('borderStyleConstant')).toEqual(constantValue);
       expect(obj.optionsForTiObject()['borderStyle']).toEqual(constantValue);
     });
+    
+    it("should all apply property changes after render", function() {
+      var view = SCTi.View.create();
+      view.render();
+      
+      view.set('backgroundColor', 'red');
+      
+      expect(view.get('tiObject').backgroundColor).toEqual('red');
+    });
 
   });
 })();
