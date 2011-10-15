@@ -466,4 +466,39 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
     }
   });
   
+  SCTi.MapView = SCTi.View.extend({
+    tiOptions: 'animate annotations location mapType:mapTypeConstant region regionFit userLocation'.w(),
+    tiEvents: 'complete error loading regionChanged'.w(),
+    tiConstantMappings: {
+      mapType: {
+        standard: Ti.Map.STANDARD_TYPE,
+        satellite: Ti.Map.SATELLITE_TYPE,
+        hybrid: Ti.Map.HYBRID_TYPE
+      }
+    },
+    
+    addChildView: function(tiObject, childView) {
+      tiObject.addAnnotation(get(childView, 'tiObject'));
+    },
+    
+    createTiObject: function(options) {
+      return Ti.Map.createView(options);
+    }
+  });
+  
+  SCTi.MapAnnotation = SCTi.View.extend({
+    tiOptions: 'animate image latitude longitude leftButton leftView pinImage pincolor:pincolorConstant rightButton rightView subtitle subtitleid title titleid'.w(),
+    tiConstantMappings: {
+      pincolor: {
+        red: Ti.Map.ANNOTATION_RED,
+        green: Ti.Map.ANNOTATION_GREEN,
+        purple: Ti.Map.ANNOTATION_PURPLE
+      }
+    },
+    
+    createTiObject: function(options) {
+      return Ti.Map.createAnnotation(options);
+    }
+  });
+  
 })();

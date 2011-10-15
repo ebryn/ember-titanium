@@ -181,4 +181,32 @@
     });
   });
   
+  describe("SCTi.MapView", function() {
+    it("should be defined", function() {
+      expect(SCTi.MapView).toBeDefined();
+    });
+  
+    it("should be able to create a Ti.Map.MapView", function() {
+      var view = SCTi.MapView.create(), tiView;
+      
+      tiView = view.createObject();
+      
+      expect(tiView).toBeDefined();
+    });
+  });
+  
+  describe("SCTi.MapAnnotation", function() {
+    it("should be defined", function() {
+      expect(SCTi.MapAnnotation).toBeDefined();
+    });
+  
+    it("should be able to create a Ti.Map.Annotation", function() {
+      var view = SCTi.MapAnnotation.create(), tiView;
+      
+      tiView = view.createObject();
+      
+      expect(tiView).toBeDefined();
+    });
+  });
+  
 })();
