@@ -217,14 +217,14 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
     },
 
     createObservers: function() {
-      var self = this;
-
-      this.forEachValidTiOption(function(optionName) {
+      var self = this, tiOptions = get(this, 'tiOptions');
+      
+      tiOptions.forEach(function(optionName) {
         var observer = function() {
           var tiObject = get(this, 'tiObject');
           var currentValue = tiObject[optionName], newValue = get(this, optionName);
 
-          if (newValue !== currentValue) {
+          if (newValue !== undefined && newValue !== null && newValue !== currentValue) {
             tiObject[optionName] = newValue;
           }
         };
