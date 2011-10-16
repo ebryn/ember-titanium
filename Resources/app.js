@@ -107,7 +107,7 @@ if (RUN_TESTS) {
     animate: true,
     latitude: 46.876951,
     longitude: -96.78664,
-    pincolor: 'green',
+    pinColor: 'green',
     title: 'Brian was here!',
     subtitle: 'Mmmm... beer.'
   });

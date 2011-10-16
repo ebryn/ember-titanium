@@ -487,9 +487,9 @@ queues.insertAt(queues.indexOf('actions')+1, 'render');
   });
   
   SCTi.MapAnnotation = SCTi.View.extend({
-    tiOptions: 'animate image latitude longitude leftButton leftView pinImage pincolor:pincolorConstant rightButton rightView subtitle subtitleid title titleid'.w(),
+    tiOptions: 'animate image latitude longitude leftButton leftView pinImage pincolor:pinColorConstant rightButton rightView subtitle subtitleid title titleid'.w(),
     tiConstantMappings: {
-      pincolor: {
+      pinColor: {
         red: Ti.Map.ANNOTATION_RED,
         green: Ti.Map.ANNOTATION_GREEN,
         purple: Ti.Map.ANNOTATION_PURPLE
