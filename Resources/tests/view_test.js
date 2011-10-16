@@ -168,13 +168,21 @@
       expect(obj.optionsForTiObject()['borderStyle']).toEqual(constantValue);
     });
     
-    it("should apply any property changes after render", function() {
-      var view = SCTi.View.create();
-      view.render();
-      
-      view.set('backgroundColor', 'red');
-      
-      expect(view.get('tiObject').backgroundColor).toEqual('red');
+    it("should apply any property changes after tiObject is created", function() {
+      var TestObject = SCTi.Object.extend({
+        tiOptions: "first second".w(),
+        createTiObject: function(options) {
+          return options;
+        }
+      });
+
+      var obj = TestObject.create({first: "OHAI"}),
+          tiObject = obj.createObject();
+      expect(tiObject.first).toEqual("OHAI");
+      expect(tiObject.second).toBeUndefined();
+
+      obj.set('second', "THERE");
+      expect(tiObject.second).toEqual("THERE");
     });
 
   });
